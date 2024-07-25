@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Input, DropdownItem, DropdownTrigger, Dropdown, DropdownMenu, Avatar } from "@nextui-org/react";
 import { RiNextjsFill } from "react-icons/ri";
 import { IoSearchSharp } from "react-icons/io5";
+import { Navbar_Menu } from "./Constants";
 
 const NavbarComponent = () => {
     const router = useRouter();
@@ -12,27 +13,21 @@ const NavbarComponent = () => {
     return (
         <Navbar isBordered maxWidth="full" className="px-10">
             <NavbarContent justify="start">
-                <NavbarBrand className="mr-4">
+                <NavbarItem className="mr-4 flex items-center justify-center">
                     <RiNextjsFill className="text-3xl" />
                     <p className="hidden sm:block font-bold text-inherit ml-2">NEXT</p>
-                </NavbarBrand>
-            </NavbarContent>
-            <NavbarContent className="hidden sm:flex gap-6" justify="center">
-                <NavbarItem>
-                    <Link color="foreground" href="#">
-                        Basics
-                    </Link>
                 </NavbarItem>
-                <NavbarItem isActive>
-                    <Link href="#" aria-current="page" color="secondary">
-                        Standard
-                    </Link>
-                </NavbarItem>
-                <NavbarItem>
-                    <Link color="foreground" href="#">
-                        Advance
-                    </Link>
-                </NavbarItem>
+                <NavbarContent className="hidden sm:flex gap-6">
+                    {
+                        Navbar_Menu.map((menu, index) => (
+                            <NavbarItem key={index}>
+                                <Link color="foreground" href={menu.path}>
+                                    {menu.title}
+                                </Link>
+                            </NavbarItem>
+                        ))
+                    }
+                </NavbarContent>
             </NavbarContent>
             <NavbarContent as="div" className="items-center" justify="end">
                 <Input
