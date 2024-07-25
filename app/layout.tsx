@@ -27,7 +27,9 @@ export default function RootLayout({
               <h3 className="text-center text-3xl">Next.js Docs</h3>
               <p>Try Different Examples to explore the Next.js Concepts!</p>
             </header>
-            {children}
+            <div className="mx-2 my-10">
+              {children}
+            </div>
           </div>
         </main>
       </BodyComponent>
