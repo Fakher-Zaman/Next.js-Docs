@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import BodyComponent from "./BodyComponent";
+import { Navbar } from "@nextui-org/react";
+import NavbarComponent from "@/components/NavbarComponent";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +19,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <BodyComponent>
+        <main className="flex min-h-screen flex-col">
+          <NavbarComponent />
+          <div className="py-6 px-16">
+            <header className="flex flex-col justify-center items-center">
+              <h3 className="text-center text-3xl">Next.js Docs</h3>
+              <p>Try Different Examples to explore the Next.js Concepts!</p>
+            </header>
+            {children}
+          </div>
+        </main>
+      </BodyComponent>
     </html>
   );
 }
