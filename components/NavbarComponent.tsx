@@ -11,7 +11,9 @@ import { useDarkMode } from "usehooks-ts";
 import { BiExitFullscreen, BiSolidMoon, BiSolidSun } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/features/store";
+import { VisuallyHidden, useSwitch } from "@nextui-org/react";
 import { MdFullscreen } from "react-icons/md";
+import ThemeSwitcher from "./ThemeSwitcher";
 
 const NavbarComponent = () => {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -21,6 +23,14 @@ const NavbarComponent = () => {
     const { isDarkMode, toggle, enable, disable } = useDarkMode();
     const [isFullscreen, setIsFullscreen] = useState(false);
     const mode = useSelector((state: RootState) => state.modeReducer.mode);
+    const {
+        Component,
+        slots,
+        isSelected,
+        getBaseProps,
+        getInputProps,
+        getWrapperProps
+    } = useSwitch();
 
     const darkMode = (e: any) => {
         if (e.target.checked) {
@@ -119,24 +129,20 @@ const NavbarComponent = () => {
                 </NavbarContent>
             </NavbarContent>
             <NavbarContent as="div" className="items-center" justify="end">
-            <NavbarItem>
+                <NavbarItem className="-mr-2">
+                    <ThemeSwitcher
+                        isSelected={mode === "dark"}
+                        onChange={darkMode.bind(this)}
+                    />
+                </NavbarItem>
+                <NavbarItem>
                     {isFullscreen ? (
-                        <BiExitFullscreen onClick={handleFullscreen} className="text-[26px]" />
+                        <BiExitFullscreen onClick={handleFullscreen} className="text-[26px] cursor-pointer" />
                     ) : (
-                        <MdFullscreen onClick={handleFullscreen} className="text-[26px]" />
+                        <MdFullscreen onClick={handleFullscreen} className="text-[26px] cursor-pointer" />
                     )}
                 </NavbarItem>
-                <Switch
-                    onChange={darkMode.bind(this)}
-                    isSelected={mode === 'dark'}
-                    defaultSelected
-                    size="sm"
-                    color="primary"
-                    startContent={<BiSolidSun />}
-                    endContent={<BiSolidMoon />}
-                >
-                    {mode === 'dark' ? 'Dark mode' : 'Light mode'}
-                </Switch><Input
+                <Input
                     classNames={{
                         base: "max-w-full sm:max-w-[15rem] h-10",
                         mainWrapper: "h-full",

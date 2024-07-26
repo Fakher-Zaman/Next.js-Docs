@@ -23,7 +23,7 @@ const config: Config = {
       themes: {
         light: {
           colors: {
-            background: "#F7F9FC", // A very light gray-blue for a soft background
+            background: "#FFFFFF", // A very light gray-blue for a soft background
             foreground: "#1A1F36", // A dark blue-gray for contrast and readability
             primary: {
               foreground: "#0052CC", // A strong blue for text on buttons, links
