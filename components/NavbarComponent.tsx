@@ -2,10 +2,11 @@
 
 import React from "react";
 import { useRouter, usePathname } from 'next/navigation';
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Input, DropdownItem, DropdownTrigger, Dropdown, DropdownMenu, Avatar, NavbarMenuToggle, NavbarMenu, NavbarMenuItem } from "@nextui-org/react";
+import { Navbar, NavbarContent, NavbarItem, Link, Input, DropdownItem, DropdownTrigger, Dropdown, DropdownMenu, Avatar, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Switch } from "@nextui-org/react";
 import { RiNextjsFill } from "react-icons/ri";
 import { IoSearchSharp } from "react-icons/io5";
 import { Navbar_Menu } from "./Constants";
+import { BiSolidMoon, BiSolidSun } from "react-icons/bi";
 
 const NavbarComponent = () => {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -42,6 +43,15 @@ const NavbarComponent = () => {
                 </NavbarContent>
             </NavbarContent>
             <NavbarContent as="div" className="items-center" justify="end">
+                <Switch
+                    defaultSelected
+                    size="sm"
+                    color="success"
+                    startContent={<BiSolidSun />}
+                    endContent={<BiSolidMoon />}
+                >
+                    Dark mode
+                </Switch>
                 <Input
                     classNames={{
                         base: "max-w-full sm:max-w-[15rem] h-10",

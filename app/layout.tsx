@@ -1,9 +1,10 @@
+import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
 import BodyComponent from "./BodyComponent";
 import { Navbar } from "@nextui-org/react";
 import NavbarComponent from "@/components/NavbarComponent";
+import ReduxProvider from "@/store/provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,20 +20,22 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <BodyComponent>
-        <main className="flex min-h-screen flex-col">
-          <NavbarComponent />
-          <div className="py-6 px-16">
-            <header className="flex flex-col justify-center items-center">
-              <h3 className="text-center text-3xl">Next.js Docs</h3>
-              <p>Try Different Examples to explore the Next.js Concepts!</p>
-            </header>
-            <div className="mx-2 my-10">
-              {children}
+      <ReduxProvider>
+        <BodyComponent>
+          <main className="flex min-h-screen flex-col">
+            <NavbarComponent />
+            <div className="py-6 px-16">
+              <header className="flex flex-col justify-center items-center">
+                <h3 className="text-center text-3xl">Next.js Docs</h3>
+                <p>Try Different Examples to explore the Next.js Concepts!</p>
+              </header>
+              <div className="mx-2 my-10">
+                {children}
+              </div>
             </div>
-          </div>
-        </main>
-      </BodyComponent>
+          </main>
+        </BodyComponent>
+      </ReduxProvider>
     </html>
   );
 }
