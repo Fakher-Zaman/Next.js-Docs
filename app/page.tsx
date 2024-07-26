@@ -5,6 +5,7 @@ export default function Basics() {
   const list = [
     {
       title: "Redux",
+      path: "/redux",
       img: "https://negativeepsilon.com/media/attachments/blobs/2023/01/09/PNbZQxCiPVkNWzDNPDx24j_redux_rm05scp.png_riwC4kc5pLH7k1e5ReNajv_2FOQ.webp",
       date: "25/7/2024",
     },

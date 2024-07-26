@@ -1,10 +1,14 @@
+"use client";
+
 import React from 'react';
 import { Card, CardFooter, CardBody, Image, Button } from "@nextui-org/react";
+import { useRouter } from 'next/navigation';
 
 interface ListItem {
     title: string;
     img: string;
     date: string;
+    path: string;
 }
 
 interface displayCardProps {
@@ -12,10 +16,16 @@ interface displayCardProps {
 }
 
 const DisplayCards: React.FC<displayCardProps> = ({ list }) => {
+    const router = useRouter();
+
+    const handleCard = (path: string) => {
+        router.push(path);
+    }
+
     return (
         <>
             {list.map((item: ListItem, index: number) => (
-                <Card shadow="sm" key={index} isHoverable isPressable className=''>
+                <Card shadow="sm" key={index} isHoverable isPressable onPress={() => handleCard(item.path)}>
                     <CardBody className="overflow-visible p-0">
                         <Image
                             shadow="sm"

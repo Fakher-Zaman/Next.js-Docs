@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter, usePathname } from 'next/navigation';
 import { Navbar, NavbarContent, NavbarItem, Link, Input, DropdownItem, DropdownTrigger, Dropdown, DropdownMenu, Avatar, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Switch } from "@nextui-org/react";
 import { RiNextjsFill } from "react-icons/ri";
@@ -8,9 +8,10 @@ import { IoSearchSharp } from "react-icons/io5";
 import { Navbar_Menu } from "./Constants";
 import { isDark, isLight } from "@/store/features/mode-slice";
 import { useDarkMode } from "usehooks-ts";
-import { BiSolidMoon, BiSolidSun } from "react-icons/bi";
+import { BiExitFullscreen, BiSolidMoon, BiSolidSun } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/features/store";
+import { MdFullscreen } from "react-icons/md";
 
 const NavbarComponent = () => {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -18,6 +19,7 @@ const NavbarComponent = () => {
     const router = useRouter();
     const pathname = usePathname();
     const { isDarkMode, toggle, enable, disable } = useDarkMode();
+    const [isFullscreen, setIsFullscreen] = useState(false);
     const mode = useSelector((state: RootState) => state.modeReducer.mode);
 
     const darkMode = (e: any) => {
@@ -42,6 +44,61 @@ const NavbarComponent = () => {
         return path === pathname ? "primary" : "foreground";
     }
 
+    useEffect(() => {
+        const handleFullscreenChange = () => {
+            setIsFullscreen(!!document.fullscreenElement);
+        };
+
+        document.addEventListener("fullscreenchange", handleFullscreenChange);
+        document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
+        document.addEventListener("mozfullscreenchange", handleFullscreenChange);
+        document.addEventListener("MSFullscreenChange", handleFullscreenChange);
+
+        return () => {
+            document.removeEventListener("fullscreenchange", handleFullscreenChange);
+            document.removeEventListener(
+                "webkitfullscreenchange",
+                handleFullscreenChange
+            );
+            document.removeEventListener(
+                "mozfullscreenchange",
+                handleFullscreenChange
+            );
+            document.removeEventListener(
+                "MSFullscreenChange",
+                handleFullscreenChange
+            );
+        };
+    }, []);
+
+    const handleFullscreen = () => {
+        const element: any = document.documentElement;
+        const cancel: any = document;
+        if (!isFullscreen) {
+            if (element.requestFullscreen) {
+                element.requestFullscreen();
+            } else if (element.mozRequestFullScreen) {
+                element.mozRequestFullScreen();
+            } else if (element.webkitRequestFullscreen) {
+                element.webkitRequestFullscreen();
+            } else if (element.msRequestFullscreen) {
+                element.msRequestFullscreen();
+            }
+            setIsFullscreen(true);
+        } else {
+            if (cancel.exitFullscreen) {
+                cancel.exitFullscreen();
+            } else if (cancel.mozCancelFullScreen) {
+                cancel.mozCancelFullScreen();
+            } else if (cancel.webkitExitFullscreen) {
+                cancel.webkitExitFullscreen();
+            } else if (cancel.msExitFullscreen) {
+                cancel.msExitFullscreen();
+            }
+            setIsFullscreen(false);
+        }
+    };
+
     return (
         <Navbar isBordered maxWidth="full" className="md:px-10" onMenuOpenChange={setIsMenuOpen}>
             <NavbarContent justify="start">
@@ -62,6 +119,13 @@ const NavbarComponent = () => {
                 </NavbarContent>
             </NavbarContent>
             <NavbarContent as="div" className="items-center" justify="end">
+            <NavbarItem>
+                    {isFullscreen ? (
+                        <BiExitFullscreen onClick={handleFullscreen} className="text-[26px]" />
+                    ) : (
+                        <MdFullscreen onClick={handleFullscreen} className="text-[26px]" />
+                    )}
+                </NavbarItem>
                 <Switch
                     onChange={darkMode.bind(this)}
                     isSelected={mode === 'dark'}
@@ -72,8 +136,7 @@ const NavbarComponent = () => {
                     endContent={<BiSolidMoon />}
                 >
                     {mode === 'dark' ? 'Dark mode' : 'Light mode'}
-                </Switch>
-                <Input
+                </Switch><Input
                     classNames={{
                         base: "max-w-full sm:max-w-[15rem] h-10",
                         mainWrapper: "h-full",
