@@ -18,36 +18,56 @@ const config: Config = {
     },
   },
   darkMode: "class",
-  plugins: [nextui(
-    {
+  plugins: [
+    nextui({
       themes: {
         light: {
           colors: {
-            background: "#FFFFFF", // or DEFAULT
-            foreground: "#11181C", // or 50 to 900 DEFAULT
+            background: "#F7F9FC", // A very light gray-blue for a soft background
+            foreground: "#1A1F36", // A dark blue-gray for contrast and readability
             primary: {
-              //... 50 to 900
-              foreground: "#1A8771",
-              DEFAULT: "#1A8771",
+              foreground: "#0052CC", // A strong blue for text on buttons, links
+              DEFAULT: "#0052CC", // Consistent primary color
             },
+            secondary: {
+              foreground: "#FF5630", // A vibrant orange for secondary elements
+              DEFAULT: "#FF5630",
+            },
+            accent: {
+              foreground: "#36B37E", // Green for accents
+              DEFAULT: "#36B37E",
+            },
+            muted: "#6B778C", // Muted text or subtle backgrounds
+            border: "#E3E7EB", // Soft border color
+            cardBackground: "#FFFFFF", // White for cards or panels
             // ... rest of the colors
           },
         },
         dark: {
           colors: {
-            background: "#000000", // or DEFAULT
-            foreground: "#ECEDEE", // or 50 to 900 DEFAULT
+            background: "#141926", // A deep navy background for elegance
+            foreground: "#ECEDEE", // A light gray for readability on dark
             primary: {
-              //... 50 to 900
-              foreground: "#FFFFFF",
-              DEFAULT: "#1A8771",
+              foreground: "#4C9AFF", // Lighter blue for readability in dark mode
+              DEFAULT: "#4C9AFF", // Consistent primary color
             },
-            customCard: "#1A2138"
+            secondary: {
+              foreground: "#FFAB00", // Bright yellow-orange for secondary elements
+              DEFAULT: "#FFAB00",
+            },
+            accent: {
+              foreground: "#00C853", // Bright green for accents
+              DEFAULT: "#00C853",
+            },
+            muted: "#8993A4", // Muted text or subtle backgrounds
+            border: "#31364A", // Border color with contrast against background
+            customCard: "#1A2138", // A soft navy-blue card background
+            // ... rest of the colors
           },
-          // ... rest of the colors
         },
       },
-    }
-  )],
+    }),
+  ],
 };
+
 export default config;

@@ -6,12 +6,31 @@ import { Navbar, NavbarContent, NavbarItem, Link, Input, DropdownItem, DropdownT
 import { RiNextjsFill } from "react-icons/ri";
 import { IoSearchSharp } from "react-icons/io5";
 import { Navbar_Menu } from "./Constants";
+import { isDark, isLight } from "@/store/features/mode-slice";
+import { useDarkMode } from "usehooks-ts";
 import { BiSolidMoon, BiSolidSun } from "react-icons/bi";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store/features/store";
 
 const NavbarComponent = () => {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+    const dispatch = useDispatch();
     const router = useRouter();
     const pathname = usePathname();
+    const { isDarkMode, toggle, enable, disable } = useDarkMode();
+    const mode = useSelector((state: RootState) => state.modeReducer.mode);
+
+    const darkMode = (e: any) => {
+        if (e.target.checked) {
+            localStorage.setItem("mode", "dark");
+            dispatch(isDark("dark"));
+            enable();
+        } else {
+            localStorage.setItem("mode", "light");
+            dispatch(isLight("light"));
+            disable();
+        }
+    };
 
     const handleLinks = (path: string) => {
         return () => {
@@ -44,13 +63,15 @@ const NavbarComponent = () => {
             </NavbarContent>
             <NavbarContent as="div" className="items-center" justify="end">
                 <Switch
+                    onChange={darkMode.bind(this)}
+                    isSelected={mode === 'dark'}
                     defaultSelected
                     size="sm"
-                    color="success"
+                    color="primary"
                     startContent={<BiSolidSun />}
                     endContent={<BiSolidMoon />}
                 >
-                    Dark mode
+                    {mode === 'dark' ? 'Dark mode' : 'Light mode'}
                 </Switch>
                 <Input
                     classNames={{
