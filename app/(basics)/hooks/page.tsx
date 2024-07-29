@@ -10,12 +10,6 @@ const Hooks = () => {
 
     return (
         <>
-            <div className='flex justify-between'>
-                <div className='flex items-center'>
-                    <span className='md:block hidden text-2xl cursor-pointer'><IoMdArrowBack onClick={() => router.back()} /></span>
-                    <h2 className='text-2xl md:ml-5'>BASICS : React Hooks</h2>
-                </div>
-            </div>
             <nav className="m-5 flex justify-between items-center">
                 <Link href="/useState" className="pointer px-4 py-2 rounded m-2 bg-primary-50">useState</Link>
                 <Link href="/useEffect" className="pointer px-4 py-2 rounded m-2 bg-primary-100">useEffect</Link>
