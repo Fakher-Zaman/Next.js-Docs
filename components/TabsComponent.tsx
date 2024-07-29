@@ -17,15 +17,13 @@ export default function TabsComponent() {
         { key: "useReducer", title: "useReducer", path: "useReducer" },
         { key: "useCallback", title: "useCallback", path: "useCallback" },
         { key: "useMemo", title: "useMemo", path: "useMemo" },
-        { key: "customHooks", title: "customHooks", path: "customHooks" },
+        { key: "customHook", title: "customHook", path: "customHook" },
     ];
 
-    // Function to handle tab change based on path
     const handleTabChange = (path: string) => {
         return router.replace(`/hooks/${path}/`);
     };
 
-    // Find the selected tab based on the current pathname
     const selectedTab = items.find((item) => pathname.includes(item.path));
 
     return (

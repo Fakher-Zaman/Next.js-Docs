@@ -2,7 +2,7 @@ import React from 'react';
 
 const customHooks = () => {
     return (
-        <div>customHooks</div>
+        <div>Custom Hook</div>
     )
 }
 

@@ -11,7 +11,7 @@ export default function Basics() {
     },
     {
       title: "React Hooks",
-      path: "/hooks",
+      path: "/hooks/useState",
       img: "https://miro.medium.com/v2/resize:fit:1400/1*-Ijet6kVJqGgul6adezDLQ.png",
       date: "26/7/2024",
     },
@@ -20,7 +20,6 @@ export default function Basics() {
   return (
     <NextUIProvider>
       <section className="gap-6 grid grid-cols-2 sm:grid-cols-4">
-        {/* Pass the 'list' correctly as a prop */}
         <DisplayCards list={list} />
       </section>
     </NextUIProvider>

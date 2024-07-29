@@ -2,7 +2,7 @@ import React from 'react';
 
 const useState = () => {
     return (
-        <div>useState</div>
+        <div>UseState Hook</div>
     )
 }
 

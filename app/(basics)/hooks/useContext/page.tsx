@@ -2,7 +2,7 @@ import React from 'react';
 
 const useContext = () => {
     return (
-        <div>useContext</div>
+        <div>UseContext Hook</div>
     )
 }
 

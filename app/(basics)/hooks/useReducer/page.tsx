@@ -2,7 +2,7 @@ import React from 'react';
 
 const useReducer = () => {
     return (
-        <div>useReducer</div>
+        <div>UseReducer Hook</div>
     )
 }
 

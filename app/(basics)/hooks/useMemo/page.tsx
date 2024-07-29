@@ -2,7 +2,7 @@ import React from 'react';
 
 const useMemo = () => {
     return (
-        <div>useMemo</div>
+        <div>UseMemo Hook</div>
     )
 }
 

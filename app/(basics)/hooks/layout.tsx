@@ -16,7 +16,7 @@ export default function layout({
         <div>
             <TabsComponent />
         </div>
-        <div>
+        <div className="flex justify-center items-center">
             {children}
         </div>
         </>
