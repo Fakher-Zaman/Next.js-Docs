@@ -26,8 +26,8 @@ const config: Config = {
             background: "#FFFFFF", // A very light gray-blue for a soft background
             foreground: "#1A1F36", // A dark blue-gray for contrast and readability
             primary: {
-              foreground: "#0052CC", // A strong blue for text on buttons, links
-              // DEFAULT: "#0052CC", // Consistent primary color
+              foreground: "#06b6d4", // A strong blue for text on buttons, links
+              DEFAULT: "#06b6d4", // Consistent primary color
             },
             secondary: {
               foreground: "#FF5630", // A vibrant orange for secondary elements
@@ -48,8 +48,8 @@ const config: Config = {
             background: "#141926", // A deep navy background for elegance
             foreground: "#ECEDEE", // A light gray for readability on dark
             primary: {
-              foreground: "#4C9AFF", // Lighter blue for readability in dark mode
-              // DEFAULT: "#4C9AFF", // Consistent primary color
+              foreground: "#06b6d4", // Lighter blue for readability in dark mode
+              DEFAULT: "#06b6d4", // Consistent primary color
             },
             secondary: {
               foreground: "#FFAB00", // Bright yellow-orange for secondary elements
