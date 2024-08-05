@@ -2,6 +2,8 @@
 
 import { Button, Card, Input } from '@nextui-org/react';
 import React, { useReducer, useState } from 'react';
+import { AiFillDelete } from 'react-icons/ai';
+import { FaCheck, FaPlus } from 'react-icons/fa';
 
 enum TodoActionType {
     ADD_TODO = 'ADD_TODO',
@@ -68,11 +70,12 @@ const useReducerHook: React.FC = () => {
     };
 
     return (
-        <Card className='p-4 max-w-md mx-auto shadow-lg rounded-lg'>
-            <h1 className='text-2xl font-bold mb-4'>Todo List</h1>
-            <div className='mb-4'>
+        <Card className='p-4 min-w-[500px] mx-auto shadow-lg rounded-lg'>
+            <h2 className='text-2xl mb-4'>Todo List</h2>
+            <div className='mb-4 flex gap-2 items-center'>
                 <Input
                     type='text'
+                    variant='underlined'
                     value={text}
                     onChange={(e) => setText(e.target.value)}
                     placeholder='Enter your todo...'
@@ -80,9 +83,9 @@ const useReducerHook: React.FC = () => {
                 <Button
                     onClick={handleAddTodo}
                     color='primary'
-                    className='w-full mt-2 text-white'
+                    className='text-white'
                 >
-                    Add Todo
+                    <FaPlus />
                 </Button>
             </div>
             <ul>
@@ -90,23 +93,28 @@ const useReducerHook: React.FC = () => {
                     state.todos.map((todo: any) => (
                         <li
                             key={todo.id}
-                            className={`p-2 mb-2 flex justify-between items-center rounded-md ${todo.completed ? 'bg-green-100' : 'bg-gray-100'
-                                }`}
+                            className={`py-2 px-4 mb-2 flex justify-between items-center rounded-md ${todo.isCompleted ? 'bg-default-100' : 'bg-default-200'}`}
                         >
                             <span
                                 onClick={() => dispatch({ type: TodoActionType.TOGGLE_TODO, payload: todo.id })}
-                                className={`cursor-pointer ${todo.isCompleted? 'line-through' : ''
-                                    }`}
+                                className={`cursor-pointer ${todo.isCompleted ? 'line-through' : ''}`}
                             >
                                 {todo.text}
                             </span>
-                            <Button
-                                onClick={() => dispatch({ type: TodoActionType.REMOVE_TODO, payload: todo.id })}
-                                color='danger'
-                                variant='flat'
-                            >
-                                Remove
-                            </Button>
+                            <div className='flex flex-row justify-center items-center gap-2'>
+                                <span
+                                    onClick={() => dispatch({ type: TodoActionType.TOGGLE_TODO, payload: todo.id })}
+                                    className='text-primary cursor-pointer text-2xl'
+                                >
+                                    <FaCheck />
+                                </span>
+                                <span
+                                    onClick={() => dispatch({ type: TodoActionType.REMOVE_TODO, payload: todo.id })}
+                                    className='text-danger cursor-pointer text-2xl'
+                                >
+                                    <AiFillDelete />
+                                </span>
+                            </div>
                         </li>
                     ))
                 }
