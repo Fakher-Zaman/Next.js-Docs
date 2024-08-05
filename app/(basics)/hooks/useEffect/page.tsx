@@ -20,8 +20,9 @@ const useEffectHook = () => {
                     onClick={() => {
                         setRandomNumber(Math.random() * 100)
                     }}
-                    variant='bordered'
+                    variant='solid'
                     color='primary'
+                    className='text-white'
                 >
                     Generate random number!
                 </Button>
