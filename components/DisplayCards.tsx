@@ -32,7 +32,7 @@ const DisplayCards: React.FC<displayCardProps> = ({ list }) => {
                             radius="lg"
                             width="100%"
                             alt={item.title}
-                            className="w-full object-cover h-[140px]"
+                            className="w-full object-cover sm:h-[140px] h-[200px]"
                             src={item.img}
                         />
                     </CardBody>

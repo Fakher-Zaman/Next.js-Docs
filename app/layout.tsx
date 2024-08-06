@@ -24,7 +24,7 @@ export default function RootLayout({
         <BodyComponent>
           <main className="flex min-h-screen flex-col">
             <NavbarComponent />
-            <div className="py-6 px-16">
+            <div className="md:py-6 md:px-16 p-4">
               <header className="flex flex-col justify-center items-center">
                 <h3 className="text-center text-3xl">Next.js Docs</h3>
                 <p>Try Different Examples to explore the Next.js Concepts!</p>

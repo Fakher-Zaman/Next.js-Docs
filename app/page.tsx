@@ -19,7 +19,7 @@ export default function Basics() {
 
   return (
     <NextUIProvider>
-      <section className="gap-6 grid grid-cols-2 sm:grid-cols-4">
+      <section className="gap-6 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 grid-cols-1">
         <DisplayCards list={list} />
       </section>
     </NextUIProvider>
