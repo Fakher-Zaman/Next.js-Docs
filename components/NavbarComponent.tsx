@@ -2,35 +2,35 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter, usePathname } from 'next/navigation';
-import { Navbar, NavbarContent, NavbarItem, Link, Input, DropdownItem, DropdownTrigger, Dropdown, DropdownMenu, Avatar, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Switch } from "@nextui-org/react";
+import {
+    Navbar,
+    NavbarContent,
+    NavbarItem,
+    Link,
+    Input,
+    NavbarMenuToggle,
+    NavbarMenu,
+    NavbarMenuItem,
+} from "@nextui-org/react";
 import { RiNextjsFill } from "react-icons/ri";
 import { IoSearchSharp } from "react-icons/io5";
 import { Navbar_Menu } from "./Constants";
 import { isDark, isLight } from "@/store/features/mode-slice";
 import { useDarkMode } from "usehooks-ts";
-import { BiExitFullscreen, BiSolidMoon, BiSolidSun } from "react-icons/bi";
+import { BiExitFullscreen } from "react-icons/bi";
+import { MdFullscreen } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/features/store";
-import { VisuallyHidden, useSwitch } from "@nextui-org/react";
-import { MdFullscreen } from "react-icons/md";
 import ThemeSwitcher from "./ThemeSwitcher";
 
 const NavbarComponent = () => {
-    const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const dispatch = useDispatch();
     const router = useRouter();
     const pathname = usePathname();
-    const { isDarkMode, toggle, enable, disable } = useDarkMode();
+    const { enable, disable } = useDarkMode();
     const [isFullscreen, setIsFullscreen] = useState(false);
     const mode = useSelector((state: RootState) => state.modeReducer.mode);
-    const {
-        Component,
-        slots,
-        isSelected,
-        getBaseProps,
-        getInputProps,
-        getWrapperProps
-    } = useSwitch();
 
     const darkMode = (e: any) => {
         if (e.target.checked) {
@@ -47,39 +47,13 @@ const NavbarComponent = () => {
     const handleLinks = (path: string) => {
         return () => {
             router.push(path);
+            setIsMenuOpen(false);
         }
     }
 
     const activeLink = (path: string) => {
         return path === pathname ? "primary" : "foreground";
     }
-
-    useEffect(() => {
-        const handleFullscreenChange = () => {
-            setIsFullscreen(!!document.fullscreenElement);
-        };
-
-        document.addEventListener("fullscreenchange", handleFullscreenChange);
-        document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
-        document.addEventListener("mozfullscreenchange", handleFullscreenChange);
-        document.addEventListener("MSFullscreenChange", handleFullscreenChange);
-
-        return () => {
-            document.removeEventListener("fullscreenchange", handleFullscreenChange);
-            document.removeEventListener(
-                "webkitfullscreenchange",
-                handleFullscreenChange
-            );
-            document.removeEventListener(
-                "mozfullscreenchange",
-                handleFullscreenChange
-            );
-            document.removeEventListener(
-                "MSFullscreenChange",
-                handleFullscreenChange
-            );
-        };
-    }, []);
 
     const handleFullscreen = () => {
         const element: any = document.documentElement;
@@ -109,8 +83,36 @@ const NavbarComponent = () => {
         }
     };
 
+    useEffect(() => {
+        const handleFullscreenChange = () => {
+            setIsFullscreen(!!document.fullscreenElement);
+        };
+
+        document.addEventListener("fullscreenchange", handleFullscreenChange);
+        document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
+        document.addEventListener("mozfullscreenchange", handleFullscreenChange);
+        document.addEventListener("MSFullscreenChange", handleFullscreenChange);
+
+        return () => {
+            document.removeEventListener("fullscreenchange", handleFullscreenChange);
+            document.removeEventListener("webkitfullscreenchange", handleFullscreenChange);
+            document.removeEventListener("mozfullscreenchange", handleFullscreenChange);
+            document.removeEventListener("MSFullscreenChange", handleFullscreenChange);
+        };
+    }, []);
+
+    const handleMenuToggle = (isOpen: boolean) => {
+        setIsMenuOpen(isOpen);
+    };
+
     return (
-        <Navbar isBordered maxWidth="full" className="md:px-10" onMenuOpenChange={setIsMenuOpen}>
+        <Navbar
+            isBordered
+            maxWidth="full"
+            className="md:px-10"
+            isMenuOpen={isMenuOpen}
+            onMenuOpenChange={handleMenuToggle}
+        >
             <NavbarContent justify="start">
                 <NavbarItem className="mr-4 flex items-center justify-center">
                     <RiNextjsFill className="text-3xl" />
@@ -156,13 +158,16 @@ const NavbarComponent = () => {
                     type="search"
                 />
                 <NavbarMenuToggle
-                    aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+                    isSelected={isMenuOpen}
+                    onChange={handleMenuToggle}
                     className="sm:hidden"
                 />
             </NavbarContent>
-            <NavbarMenu>
+            <NavbarMenu
+                motionProps={{ initial: false, animate: true, transition: { duration: 0.3 } }}
+            >
                 {Navbar_Menu.map((menu, index) => (
-                    <NavbarMenuItem key={index}>
+                    <NavbarMenuItem key={index} onSelect={() => setIsMenuOpen(false)}>
                         <Link color={activeLink(menu.path)} onClick={handleLinks(menu.path)} className="cursor-pointer">
                             {menu.title}
                         </Link>
