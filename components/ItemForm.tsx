@@ -21,7 +21,7 @@ const ItemForm: React.FC<ItemFormProps> = ({ onSubmit, existingItem }) => {
 
     return (
         <form onSubmit={handleSubmit} className='flex flex-col mb-4'>
-            <div className='flex flex-row gap-2'>
+            <div className='flex sm:flex-row flex-col gap-2'>
                 <Input
                     type='text'
                     value={name}

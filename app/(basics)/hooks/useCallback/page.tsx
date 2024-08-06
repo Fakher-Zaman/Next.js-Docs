@@ -52,7 +52,7 @@ const useCallbackHook: React.FC = () => {
     };
 
     return (
-        <section className='min-w-[500px]'>
+        <section className='sm:min-w-[500px]'>
             <h1 className="text-2xl font-bold mb-4 text-center">Dynamic Item List</h1>
             <ItemForm onSubmit={handleSubmit} existingItem={editingItem || undefined} />
             <ItemList items={items} onRemove={removeItem} onEdit={handleEdit} />

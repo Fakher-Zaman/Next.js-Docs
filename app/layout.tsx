@@ -27,7 +27,7 @@ export default function RootLayout({
             <div className="md:py-6 md:px-16 p-4">
               <header className="flex flex-col justify-center items-center">
                 <h3 className="text-center text-3xl">Next.js Docs</h3>
-                <p>Try Different Examples to explore the Next.js Concepts!</p>
+                <p className="text-center">Try Different Examples to explore the Next.js Concepts!</p>
               </header>
               <div className="mx-2 my-10">
                 {children}

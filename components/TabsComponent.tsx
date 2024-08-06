@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Tabs, Tab } from "@nextui-org/react";
+import { Tabs, Tab, RadioGroup, Radio } from "@nextui-org/react";
 import { usePathname, useRouter } from "next/navigation";
 import { IoMdArrowBack } from "react-icons/io";
 
@@ -30,10 +30,10 @@ export default function TabsComponent() {
         <>
             <div className="flex justify-between">
                 <div className="flex items-center">
-                    <span className="md:block hidden text-2xl cursor-pointer">
+                    <span className="sm:block hidden text-2xl cursor-pointer">
                         <IoMdArrowBack onClick={() => router.back()} />
                     </span>
-                    <h2 className="text-2xl md:ml-5">BASICS : React Hooks</h2>
+                    <h2 className="text-2xl sm:ml-5">BASICS : React Hooks</h2>
                 </div>
             </div>
             <div className="flex w-full flex-col my-6 justify-center items-center">
@@ -49,6 +49,7 @@ export default function TabsComponent() {
                         tab: "max-w-fit px-0 h-12",
                         tabContent: "group-data-[selected=true]:text-[#06b6d4]",
                     }}
+                    className="md:block hidden"
                 >
                     {items.map((item) => (
                         <Tab
@@ -63,6 +64,19 @@ export default function TabsComponent() {
                         />
                     ))}
                 </Tabs>
+                <RadioGroup
+                    orientation="horizontal"
+                    className="md:hidden block mt-0"
+                    value={selectedTab ? selectedTab.key : ""}
+                >
+                    {items.map((item) => (
+                        <Radio key={item.key} value={item.key} onSelect={() => handleTabChange(item.path)}>
+                            <div className="flex items-center space-x-2" onClick={() => handleTabChange(item.path)}>
+                                <span>{item.title}</span>
+                            </div>
+                        </Radio>
+                    ))}
+                </RadioGroup>
             </div>
         </>
     );

@@ -3,7 +3,7 @@ import React from 'react';
 
 const customHooks = () => {
     return (
-        <section className='min-w-[500px] mx-auto'>
+        <section className='sm:min-w-[500px] mx-auto'>
             <CurrencyConverter />
         </section>
     )

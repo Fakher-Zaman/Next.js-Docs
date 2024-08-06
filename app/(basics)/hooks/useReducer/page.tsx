@@ -70,7 +70,7 @@ const useReducerHook: React.FC = () => {
     };
 
     return (
-        <Card className='p-4 min-w-[500px] mx-auto shadow-lg rounded-lg'>
+        <Card className='p-4 sm:min-w-[500px] mx-auto shadow-lg rounded-lg'>
             <h2 className='text-2xl mb-4'>Todo List</h2>
             <div className='mb-4 flex gap-2 items-center'>
                 <Input

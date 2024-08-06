@@ -149,6 +149,7 @@ const NavbarComponent = () => {
                         input: "text-small",
                         inputWrapper: "h-full font-normal text-default-500 bg-default-400/20 dark:bg-default-500/20",
                     }}
+                    className="hidden sm:block"
                     placeholder="Type to search..."
                     size="sm"
                     startContent={<IoSearchSharp />}

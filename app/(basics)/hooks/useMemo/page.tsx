@@ -27,7 +27,7 @@ const useMemoHook: React.FC = () => {
 
     return (
         <section>
-            <Card className='min-w-[500px] flex flex-col items-center p-4 shadow-md rounded-lg'>
+            <Card className='sm:min-w-[500px] flex flex-col items-center p-4 shadow-md rounded-lg'>
                 <h2 className='text-2xl font-bold mb-4'>Filtered List</h2>
                 <Input
                     type='text'
