@@ -8,12 +8,12 @@ import { IoMdArrowBack } from 'react-icons/io';
 const items = [
     { key: 'posts', title: 'Posts', path: 'posts' },
     { key: 'about', title: 'About', path: 'about' },
-    { key: 'contact', title: 'Contact', path: 'contact' },
+    { key: 'home', title: 'Home', path: 'home' },
 ]
 
 const Header = () => {
     const router = useRouter();
-    const pathname = usePathname();
+    const pathname: any = usePathname();
 
     const handleTabChange = (path: string) => {
         return router.replace(`/routing/${path}`);
