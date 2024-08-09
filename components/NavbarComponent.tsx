@@ -27,7 +27,7 @@ const NavbarComponent = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const dispatch = useDispatch();
     const router = useRouter();
-    const pathname = usePathname();
+    const pathname: any = usePathname();
     const { enable, disable } = useDarkMode();
     const [isFullscreen, setIsFullscreen] = useState(false);
     const mode = useSelector((state: RootState) => state.modeReducer.mode);

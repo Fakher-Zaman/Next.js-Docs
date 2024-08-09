@@ -13,7 +13,7 @@ const items = [
 
 const Header = () => {
     const router = useRouter();
-    const pathname = usePathname();
+    const pathname: any = usePathname();
 
     const handleTabChange = (path: string) => {
         return router.replace(`/routing/${path}`);

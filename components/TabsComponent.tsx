@@ -7,7 +7,7 @@ import { IoMdArrowBack } from "react-icons/io";
 
 export default function TabsComponent() {
     const router = useRouter();
-    const pathname = usePathname();
+    const pathname: any = usePathname();
 
     const items = [
         { key: "useState", title: "useState", path: "useState" },
