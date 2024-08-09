@@ -30,7 +30,7 @@ const Redux = () => {
         <div>
             <div className='flex justify-between'>
                 <div className='flex items-center'>
-                    <span className='md:block hidden text-2xl cursor-pointer'><IoMdArrowBack onClick={() => router.back()} /></span>
+                    <span className='sm:block hidden text-2xl cursor-pointer'><IoMdArrowBack onClick={() => router.back()} /></span>
                     <h2 className='text-2xl md:ml-5'>BASICS : Redux</h2>
                 </div>
             </div>

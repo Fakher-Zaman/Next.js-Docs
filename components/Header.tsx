@@ -25,8 +25,8 @@ const Header = () => {
         <header className=''>
             <nav className='container mx-auto flex justify-between items-center'>
                 <div className='flex items-center gap-4'>
-                    <span className='md:block hidden text-2xl cursor-pointer'><IoMdArrowBack onClick={() => router.back()} /></span>
-                    <Link href="/routing" className='text-xl font-bold'>
+                    <span className='sm:block hidden text-2xl cursor-pointer'><IoMdArrowBack onClick={() => router.back()} /></span>
+                    <Link href={"/routing"} className='text-xl font-bold'>
                         Next.js Routing
                     </Link>
                 </div>

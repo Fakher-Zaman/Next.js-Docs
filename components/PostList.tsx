@@ -1,5 +1,4 @@
 "use client";
-import Link from 'next/link';
 import { Card, CardHeader, CardBody, Image } from "@nextui-org/react";
 import { useRouter } from 'next/navigation';
 
@@ -17,9 +16,9 @@ const PostList = () => {
 
     return (
         <>
-            <div className='grid grid-cols-4 gap-4 w-full'>
+            <div className='grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4 w-full'>
                 {posts.map((post) => (
-                    <Card className="py-4 cursor-pointer" key={post.id} onClick={() => router.push(`/routing/posts/${post.id}`)} isHoverable isPressable>
+                    <Card className="py-4 cursor-pointer" key={post.id} onClick={() => router.push(`/routing/posts/${post.id}`, { scroll: false })} isHoverable isPressable>
                         <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
                             <p className="text-tiny uppercase font-bold">{post.label}</p>
                             <small className="text-default-500">{post.title}</small>
