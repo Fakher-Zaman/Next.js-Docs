@@ -158,7 +158,7 @@ const NavbarComponent = () => {
                     type="search"
                 />
                 <NavbarMenuToggle
-                    isSelected={isMenuOpen}
+                    data-selected={isMenuOpen}
                     onChange={handleMenuToggle}
                     className="sm:hidden"
                 />

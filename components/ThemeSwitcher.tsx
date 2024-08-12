@@ -2,7 +2,7 @@ import React from "react";
 import { VisuallyHidden, useSwitch } from "@nextui-org/react";
 import { IoMdMoon, IoMdSunny } from "react-icons/io";
 
-const ThemeSwitcher = ({ isSelected, onChange }: any) => {
+const ThemeSwitcher = ({ isSelected, onChange }: { isSelected: boolean; onChange: any }) => {
     const {
         Component,
         slots,
@@ -15,6 +15,7 @@ const ThemeSwitcher = ({ isSelected, onChange }: any) => {
         <div className="flex flex-col gap-2">
             <Component {...getBaseProps()} size='sm'>
                 <VisuallyHidden>
+                    {/* Ensure `isSelected` is not passed to the DOM directly */}
                     <input {...getInputProps()} />
                 </VisuallyHidden>
                 <div
