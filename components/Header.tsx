@@ -6,8 +6,8 @@ import { usePathname, useRouter } from 'next/navigation';
 import { IoMdArrowBack } from 'react-icons/io';
 
 const items = [
-    { key: 'posts', title: 'Posts', path: 'posts' },
     { key: 'about', title: 'About', path: 'about' },
+    { key: 'posts', title: 'Posts', path: 'posts' },
     { key: 'dashboard', title: 'Dashboard', path: 'dashboard' },
     { key: 'home', title: 'Home', path: 'home' },
 ];

@@ -1,3 +1,5 @@
+// Parallel Routes Concept
+
 import React from 'react';
 
 const Dashboard = () => {
