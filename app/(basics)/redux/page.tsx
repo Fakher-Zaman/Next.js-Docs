@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Switch, cn } from "@nextui-org/react";
 import { isDark, isLight } from "@/store/features/mode-slice";
 import { useDarkMode } from "usehooks-ts";
@@ -14,18 +14,35 @@ const Redux = () => {
     const mode = useSelector((state: RootState) => state.modeReducer.mode);
     const dispatch = useDispatch();
     const router = useRouter();
+    const [modeState, setModeState] = useState('');
+
+    useEffect(() => {
+        const savedMode = localStorage.getItem("mode");
+        if (savedMode === "dark") {
+            dispatch(isDark("dark"));
+            setModeState('dark');
+            enable();
+        } else {
+            dispatch(isLight("light"));
+            setModeState('light');
+            disable();
+        }
+    }, [dispatch, enable, disable]);
 
     const darkMode = (e: any) => {
         if (e.target.checked) {
             localStorage.setItem("mode", "dark");
             dispatch(isDark("dark"));
+            setModeState('dark');
             enable();
         } else {
             localStorage.setItem("mode", "light");
             dispatch(isLight("light"));
+            setModeState('light');
             disable();
         }
     };
+
     return (
         <div>
             <div className='flex justify-between'>
@@ -36,8 +53,8 @@ const Redux = () => {
             </div>
             <div className='flex justify-center items-center my-6'>
                 <Switch
-                    onChange={darkMode.bind(this)}
-                    isSelected={mode === 'dark'}
+                    onChange={darkMode}
+                    isSelected={modeState === 'dark' ? true : false}
                     defaultSelected
                     classNames={{
                         base: cn(
