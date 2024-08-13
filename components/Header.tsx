@@ -8,8 +8,9 @@ import { IoMdArrowBack } from 'react-icons/io';
 const items = [
     { key: 'posts', title: 'Posts', path: 'posts' },
     { key: 'about', title: 'About', path: 'about' },
+    { key: 'dashboard', title: 'Dashboard', path: 'dashboard' },
     { key: 'home', title: 'Home', path: 'home' },
-]
+];
 
 const Header = () => {
     const router = useRouter();
