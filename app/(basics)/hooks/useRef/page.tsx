@@ -42,7 +42,7 @@ const useRefHook = () => {
     };
 
     return (
-        <Card className='flex flex-col items-center p-4 shadow-md rounded-lg'>
+        <Card className='bg-white dark:bg-gray-800 flex flex-col items-center p-4 shadow-md rounded-lg'>
             <h1 className='text-2xl font-bold mb-4'>Countdown Timer</h1>
             <Input
                 ref={inputRef}

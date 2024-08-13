@@ -88,7 +88,7 @@ const Component3 = () => {
 const Component4 = () => {
     const user = useContext(UserContext);
     return (
-        <Card shadow='sm' fullWidth className='p-6 mt-3'>
+        <Card shadow='sm' fullWidth className='bg-white dark:bg-gray-800 p-6 mt-3'>
             <aside className='flex flex-row justify-center items-center gap-5'>
                 <Avatar isBordered color={user.color} src={user.image} className='w-12 h-12' />
                 <div>

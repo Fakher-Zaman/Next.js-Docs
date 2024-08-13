@@ -24,7 +24,7 @@ const PostPage = ({ params }: PostPageProps) => {
 
     return (
         <div className='flex justify-center items-center py-4 px-2'>
-            <Card className="py-4" key={post?.id} isHoverable>
+            <Card className="bg-white dark:bg-gray-800 py-4" key={post?.id}>
                 <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
                     <p className="text-tiny uppercase font-bold">{post?.label}</p>
                     <small className="text-default-500">{post?.title}</small>

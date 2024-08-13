@@ -25,7 +25,7 @@ const DisplayCards: React.FC<displayCardProps> = ({ list }) => {
     return (
         <>
             {list.map((item: ListItem, index: number) => (
-                <Card shadow="sm" key={index} isHoverable isPressable onPress={() => handleCard(item.path)}>
+                <Card className='bg-white dark:bg-gray-800' shadow="sm" key={index} isHoverable isPressable onPress={() => handleCard(item.path)}>
                     <CardBody className="overflow-visible p-0">
                         <Image
                             shadow="sm"
