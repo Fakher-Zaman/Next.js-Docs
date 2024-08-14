@@ -9,6 +9,7 @@ const items = [
     { key: 'about', title: 'About', path: 'about' },
     { key: 'posts', title: 'Posts', path: 'posts' },
     { key: 'dashboard', title: 'Dashboard', path: 'dashboard' },
+    { key: 'photo-feed', title: 'Photo Feed', path: 'photo-feed' },
     { key: 'home', title: 'Home', path: 'home' },
 ];
 

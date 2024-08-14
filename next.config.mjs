@@ -9,6 +9,17 @@ const nextConfig = {
             },
         ];
     },
+    images: {
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'fakher-zaman.github.io',
+                port: '',
+                pathname: '/Image-Resources/**',
+            },
+        ],
+    },
+    reactStrictMode: true,
 };
 
 export default nextConfig;

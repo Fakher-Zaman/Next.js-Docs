@@ -19,6 +19,9 @@ export default function Routing() {
                 <Link onClick={() => router.push('/routing/dashboard')} isBlock showAnchorIcon color="primary" anchorIcon={<IoIosLink className='ml-1' />} className='cursor-pointer'>
                     <div>Dashboard</div>
                 </Link>
+                <Link onClick={() => router.push('/routing/photo-feed')} isBlock showAnchorIcon color="primary" anchorIcon={<IoIosLink className='ml-1' />} className='cursor-pointer'>
+                    <div>Photo Feed</div>
+                </Link>
                 <Link onClick={() => router.push('/routing/home')} isBlock showAnchorIcon color="primary" anchorIcon={<IoIosLink className='ml-1' />} className='cursor-pointer'>
                     <div>Home</div>
                 </Link>

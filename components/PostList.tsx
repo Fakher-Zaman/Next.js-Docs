@@ -23,12 +23,11 @@ const PostList = () => {
                             <p className="text-tiny uppercase font-bold">{post.label}</p>
                             <small className="text-default-500">{post.title}</small>
                         </CardHeader>
-                        <CardBody className="overflow-visible py-2">
+                        <CardBody className="overflow-visible py-2 mx-auto flex justify-center items-center">
                             <Image
                                 alt="Card background"
                                 className="object-cover rounded-xl"
                                 src="https://i.ytimg.com/vi/0DFJnvyFqDY/hqdefault.jpg"
-                                width={270}
                             />
                         </CardBody>
                     </Card>
