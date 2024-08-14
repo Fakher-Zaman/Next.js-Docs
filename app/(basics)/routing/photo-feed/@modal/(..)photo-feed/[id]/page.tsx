@@ -19,7 +19,7 @@ export default function PhotoModal({
         height={400}
       />
 
-      <div className="bg-white p-4">
+      <div>
         <h2 className="text-xl font-semibold">{photo.name}</h2>
         <h3>{photo.photographer}</h3>
         <h3>{photo.location}</h3>

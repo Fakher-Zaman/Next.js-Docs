@@ -1,24 +1,24 @@
 "use client";
-import { useCallback, useRef, useEffect, MouseEventHandler } from "react";
+import { useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import {
+    Modal as NextUIModal,
+    ModalContent,
+    ModalHeader,
+    ModalBody,
+    ModalFooter,
+    Button,
+    useDisclosure,
+} from "@nextui-org/react";
 
 export default function Modal({ children }: { children: React.ReactNode }) {
-    const overlay = useRef(null);
-    const wrapper = useRef(null);
     const router = useRouter();
+    const { isOpen, onOpenChange } = useDisclosure({ defaultOpen: true });
 
     const onDismiss = useCallback(() => {
+        onOpenChange();
         router.back();
-    }, [router]);
-
-    const onClick: MouseEventHandler = useCallback(
-        (e) => {
-            if (e.target === overlay.current || e.target === wrapper.current) {
-                if (onDismiss) onDismiss();
-            }
-        },
-        [onDismiss, overlay, wrapper]
-    );
+    }, [router, onOpenChange]);
 
     const onKeyDown = useCallback(
         (e: KeyboardEvent) => {
@@ -33,17 +33,19 @@ export default function Modal({ children }: { children: React.ReactNode }) {
     }, [onKeyDown]);
 
     return (
-        <div
-            ref={overlay}
-            className="fixed z-10 left-0 right-0 top-0 bottom-0 mx-auto bg-black/60 p-10"
-            onClick={onClick}
-        >
-            <div
-                ref={wrapper}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 sm:w-10/12 md:w-8/12 lg:w-2/5 p-6"
-            >
-                {children}
-            </div>
-        </div>
+        <NextUIModal isOpen={isOpen} onOpenChange={onOpenChange} onClose={onDismiss}>
+            <ModalContent>
+                <ModalHeader className="flex flex-col gap-1">Modal Title</ModalHeader>
+                <ModalBody>{children}</ModalBody>
+                <ModalFooter>
+                    <Button color="danger" variant="light" onPress={onDismiss}>
+                        Close
+                    </Button>
+                    <Button color="primary" className="text-white" onPress={onDismiss}>
+                        Action
+                    </Button>
+                </ModalFooter>
+            </ModalContent>
+        </NextUIModal>
     );
 }
