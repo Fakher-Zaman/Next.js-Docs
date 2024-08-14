@@ -8,7 +8,7 @@ import React from 'react';
 export default function AdminPage() {
     return (
         <>
-            <h1 className="text-xl font-bold mb-4 text-center">Admin Dashboard</h1>
+            <h1 className="text-xl font-bold my-4 text-center">Admin Dashboard</h1>
             <div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
