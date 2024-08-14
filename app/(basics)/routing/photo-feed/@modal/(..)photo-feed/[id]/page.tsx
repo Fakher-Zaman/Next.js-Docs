@@ -15,6 +15,8 @@ export default function PhotoModal({
         alt={photo.name}
         src={photo.src}
         className="w-full object-cover aspect-square"
+        width={400}
+        height={400}
       />
 
       <div className="bg-white p-4">

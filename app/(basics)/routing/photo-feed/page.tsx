@@ -15,6 +15,8 @@ export default function Home() {
               alt={name}
               src={src}
               className="w-full object-cover aspect-square"
+              width={400}
+              height={400}
             />
           </Link>
         ))}
