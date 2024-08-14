@@ -1,38 +1,24 @@
-// /pages/routing/photo-feed.js (or .jsx)
-"use client"; // Ensure this is correct for your use case
+import Link from "next/link";
+import wonders from "./wonders";
+import Image from "next/image";
 
-import React from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import wonders from './wonders';
-import { Card, CardBody } from '@nextui-org/react';
-import { useRouter } from 'next/navigation';
-
-const PhotoFeed = () => {
-    const router = useRouter();
-
-    return (
-        <main className='container mx-auto'>
-            <h1 className='text-xl font-bold mb-4 text-center'>
-                New Wonders of the World
-            </h1>
-            <div className='grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4 w-full'>
-                {wonders.map((wonder) => (
-                    <Card className="bg-white dark:bg-gray-800 py-4 cursor-pointer" key={wonder.id} onClick={() => router.push(`/routing/photo-feed/${wonder.id}`, { scroll: false })} isHoverable isPressable>
-                        <CardBody className="overflow-visible py-2">
-                            <Image
-                                alt={wonder.name}
-                                src={wonder.src}
-                                className="w-full object-cover aspect-square"
-                                width={400}
-                                height={400}
-                            />
-                        </CardBody>
-                    </Card>
-                ))}
-            </div>
-        </main>
-    );
+export default function Home() {
+  return (
+    <main className="container mx-auto">
+      <h1 className="text-center text-3xl font-bold my-4">
+        New Wonders of the World
+      </h1>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        {wonders.map(({ id, src, name }) => (
+          <Link key={id} href={`/routing/photo-feed/${id}`}>
+            <Image
+              alt={name}
+              src={src}
+              className="w-full object-cover aspect-square"
+            />
+          </Link>
+        ))}
+      </div>
+    </main>
+  );
 }
-
-export default PhotoFeed;

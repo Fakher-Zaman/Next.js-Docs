@@ -1,19 +1,13 @@
-export const metadata = {
-    title: 'Next.js Routing Demo',
-    description: 'Exploring Next.js 14 intercepting routing features',
-};
+import "./styles.css";
 
-export default function RootLayout({
-    children,
-    modal,
-}: {
-    children: React.ReactNode;
-    modal: React.ReactNode;
+export default function Layout(props: {
+  modal: React.ReactNode;
+  children: React.ReactNode;
 }) {
-    return (
-        <>
-            {children}
-            {modal}
-        </>
-    );
+  return (
+    <>
+      {props.modal}
+      {props.children}
+    </>
+  );
 }
