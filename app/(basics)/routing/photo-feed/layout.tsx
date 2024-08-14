@@ -11,11 +11,9 @@ export default function RootLayout({
     modal: React.ReactNode;
 }) {
     return (
-        <div>
-            <main className="flex flex-col items-center justify-center">
-                {children}
-                {modal}
-            </main>
-        </div>
+        <>
+            {children}
+            {modal}
+        </>
     );
 }
