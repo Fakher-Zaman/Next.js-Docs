@@ -33,7 +33,7 @@ export default function Modal({ children }: { children: React.ReactNode }) {
     }, [onKeyDown]);
 
     return (
-        <NextUIModal isOpen={isOpen} onOpenChange={onOpenChange} onClose={onDismiss}>
+        <NextUIModal isOpen={isOpen} onOpenChange={onOpenChange} onClose={onDismiss} className="bg-white dark:bg-gray-800">
             <ModalContent>
                 <ModalHeader className="flex flex-col gap-1">Modal Title</ModalHeader>
                 <ModalBody>{children}</ModalBody>

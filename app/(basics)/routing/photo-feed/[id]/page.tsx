@@ -11,7 +11,7 @@ export default function PhotoPage({
 
   return (
     <div className="container mx-auto py-4 w-[400px]">
-      <Card>
+      <Card className="bg-white dark:bg-gray-800">
         <CardHeader>{photo.name}</CardHeader>
         <CardBody>
           <Image
