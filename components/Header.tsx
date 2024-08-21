@@ -10,6 +10,7 @@ const items = [
     { key: 'posts', title: 'Posts', path: 'posts' },
     { key: 'dashboard', title: 'Dashboard', path: 'dashboard' },
     { key: 'photo-feed', title: 'Photo Feed', path: 'photo-feed' },
+    { key: 'users', title: 'Users', path: 'users' },
     { key: 'home', title: 'Home', path: 'home' },
 ];
 
