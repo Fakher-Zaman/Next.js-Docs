@@ -7,24 +7,27 @@ import {
 } from "@nextui-org/react";
 import { toast } from 'react-toastify';
 
+// Update the User interface to match the response data structure
 interface User {
-    id: string;
-    name: string;
-    email: string;
-    contact: string;
-    address: string;
-    type: string;
+    _id: string;
+    userId: string;
+    userName: string;
+    userEmail: string;
+    userContact: string;
+    userAddress: string;
+    userType: string;
 }
 
 const Users: React.FC = () => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const [users, setUsers] = useState<User[]>([]);
-    const [newUser, setNewUser] = useState<Omit<User, 'id'>>({
-        name: '',
-        email: '',
-        contact: '',
-        address: '',
-        type: ''
+    const [newUser, setNewUser] = useState<Omit<User, '_id'>>({
+        userId: '',
+        userName: '',
+        userEmail: '',
+        userContact: '',
+        userAddress: '',
+        userType: ''
     });
 
     const notify = (message: string, type: "success" | "error" = "success") => {
@@ -34,9 +37,13 @@ const Users: React.FC = () => {
     useEffect(() => {
         fetch('/api/items')
             .then((res) => res.json())
-            .then((data: User[]) => {
-                setUsers(data);
-                console.log(data.length);
+            .then((data) => {
+                // Extract users array from the response
+                setUsers(data.users || []);
+            })
+            .catch((error) => {
+                console.error('Error fetching users:', error);
+                notify("Failed to fetch users.", "error");
             });
     }, []);
 
@@ -46,14 +53,13 @@ const Users: React.FC = () => {
 
     const handleAddUser = async () => {
         try {
-            // Create a new user object with the expected API fields
             const newUserWithId = {
-                userId: Date.now().toString(), // Generate a unique ID
-                userName: newUser.name,
-                userEmail: newUser.email,
-                userContact: newUser.contact,
-                userAddress: newUser.address,
-                userType: newUser.type
+                userId: Date.now().toString(),
+                userName: newUser.userName,
+                userEmail: newUser.userEmail,
+                userContact: newUser.userContact,
+                userAddress: newUser.userAddress,
+                userType: newUser.userType
             };
 
             const res = await fetch('/api/items', {
@@ -66,7 +72,7 @@ const Users: React.FC = () => {
 
             if (res.ok) {
                 const { message, users: updatedUsers } = await res.json();
-                setUsers(updatedUsers); // Update the users state with the latest list
+                setUsers(updatedUsers);
                 notify(message, "success");
                 onOpenChange(); // Close modal
             } else {
@@ -86,7 +92,7 @@ const Users: React.FC = () => {
                 <Button onPress={onOpen}>Add User</Button>
             </div>
             <div>
-                <Table aria-label="Example static collection table">
+                <Table aria-label="Users table">
                     <TableHeader>
                         <TableColumn>NAME</TableColumn>
                         <TableColumn>EMAIL</TableColumn>
@@ -99,12 +105,12 @@ const Users: React.FC = () => {
                     ) : (
                         <TableBody>
                             {users.map((user) => (
-                                <TableRow key={user.id}>
-                                    <TableCell>{user.name}</TableCell>
-                                    <TableCell>{user.email}</TableCell>
-                                    <TableCell>{user.address}</TableCell>
-                                    <TableCell>{user.contact}</TableCell>
-                                    <TableCell>{user.type}</TableCell>
+                                <TableRow key={user._id}>
+                                    <TableCell>{user.userName}</TableCell>
+                                    <TableCell>{user.userEmail}</TableCell>
+                                    <TableCell>{user.userAddress}</TableCell>
+                                    <TableCell>{user.userContact}</TableCell>
+                                    <TableCell>{user.userType}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -118,38 +124,38 @@ const Users: React.FC = () => {
                             <ModalHeader className="flex flex-col gap-1">Add User</ModalHeader>
                             <ModalBody>
                                 <Input
-                                    name="name"
+                                    name="userName"
                                     label="Name"
                                     placeholder="Enter user name"
-                                    value={newUser.name}
+                                    value={newUser.userName}
                                     onChange={handleInputChange}
                                 />
                                 <Input
-                                    name="email"
+                                    name="userEmail"
                                     label="Email"
                                     placeholder="Enter user email"
-                                    value={newUser.email}
+                                    value={newUser.userEmail}
                                     onChange={handleInputChange}
                                 />
                                 <Input
-                                    name="contact"
+                                    name="userContact"
                                     label="Contact"
                                     placeholder="Enter contact number"
-                                    value={newUser.contact}
+                                    value={newUser.userContact}
                                     onChange={handleInputChange}
                                 />
                                 <Input
-                                    name="address"
+                                    name="userAddress"
                                     label="Address"
                                     placeholder="Enter address"
-                                    value={newUser.address}
+                                    value={newUser.userAddress}
                                     onChange={handleInputChange}
                                 />
                                 <Input
-                                    name="type"
+                                    name="userType"
                                     label="Type"
                                     placeholder="Enter user type"
-                                    value={newUser.type}
+                                    value={newUser.userType}
                                     onChange={handleInputChange}
                                 />
                             </ModalBody>

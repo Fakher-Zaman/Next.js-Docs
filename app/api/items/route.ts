@@ -1,18 +1,36 @@
+// pages/api/users.ts
+import { connectToDatabase } from "@/db/mongodb";
 import { NextRequest, NextResponse } from "next/server";
 
 type User = {
-    userId: String;
-    userName: String;
-    userEmail: String;
-    userContact: String;
-    userAddress: String;
-    userType: String;
+    userId: string;
+    userName: string;
+    userEmail: string;
+    userContact: string;
+    userAddress: string;
+    userType: string;
 };
 
-let users: User[] = [];
-
 export async function GET() {
-    return NextResponse.json({ users });
+    try {
+        const db = await connectToDatabase();
+        const collection = db.collection('users'); // No type argument here
+
+        const users: User[] = await collection.find({}).toArray();
+
+        return NextResponse.json({ users });
+    } catch (error: any) {
+        console.error('Error fetching users:', error);
+        return NextResponse.json(
+            { message: 'Failed to fetch users', error: error.message },
+            {
+                status: 500,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
+    }
 }
 
 export async function POST(req: NextRequest) {
@@ -27,10 +45,14 @@ export async function POST(req: NextRequest) {
             userAddress,
             userType,
         };
-        users.push(newUser);
+
+        const db = await connectToDatabase();
+        const collection = db.collection('users'); // No type argument here
+
+        await collection.insertOne(newUser);
 
         return NextResponse.json(
-            { message: "User added successfully: ", users },
+            { message: "User added successfully: ", user: newUser },
             {
                 status: 201,
                 headers: {
@@ -39,6 +61,7 @@ export async function POST(req: NextRequest) {
             }
         );
     } catch (error: any) {
+        console.error('Error adding user:', error);
         return NextResponse.json(
             { message: 'Failed to add user', error: error.message },
             {
