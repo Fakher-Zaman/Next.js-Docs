@@ -122,7 +122,7 @@ const NavbarComponent = () => {
                     {
                         Navbar_Menu.map((menu, index) => (
                             <NavbarItem key={index}>
-                                <Link color={activeLink(menu.path)} onClick={handleLinks(menu.path)} className="cursor-pointer">
+                                <Link color={activeLink(menu.path)} onPress={handleLinks(menu.path)} className="cursor-pointer">
                                     {menu.title}
                                 </Link>
                             </NavbarItem>

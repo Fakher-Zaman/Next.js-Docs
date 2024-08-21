@@ -39,20 +39,25 @@ const Users: React.FC = () => {
 
     useEffect(() => {
         setIsLoading(true);
-        fetch('/api/users') // Ensure this matches your API route
-            .then((res) => res.json())
+        fetch('/api/users')
+            .then(async (res) => {
+                if (!res.ok) {
+                    const errorText = await res.text();
+                    throw new Error(errorText);
+                }
+                return res.json();
+            })
             .then((data) => {
                 setUsers(data.users || []);
             })
             .catch((error) => {
                 console.error('Error fetching users:', error);
-                notify("Failed to fetch users.", "error");
+                notify(`Failed to fetch users: ${error.message}`, "error");
             })
             .finally(() => {
                 setIsLoading(false);
             });
     }, []);
-
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNewUser({ ...newUser, [e.target.name]: e.target.value });
