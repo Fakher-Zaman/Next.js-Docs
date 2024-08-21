@@ -5,6 +5,8 @@ import BodyComponent from "./BodyComponent";
 import { Navbar } from "@nextui-org/react";
 import NavbarComponent from "@/components/NavbarComponent";
 import ReduxProvider from "@/store/provider";
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,6 +33,7 @@ export default function RootLayout({
               </header>
               <div className="mx-2 my-10">
                 {children}
+                <ToastContainer />
               </div>
             </div>
           </main>
