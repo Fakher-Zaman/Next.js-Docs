@@ -2,34 +2,14 @@
 import { connectToDatabase } from "@/db/mongodb";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextRequest) {
+export async function GET() {
     try {
         const db = await connectToDatabase();
         const collection = db.collection('users');
 
-        // Get query parameters for pagination
-        const { searchParams } = new URL(req.url);
-        const page = parseInt(searchParams.get('page') || '1', 10);
-        const limit = parseInt(searchParams.get('limit') || '10', 10);
+        const users = await collection.find({}).toArray();
 
-        // Calculate the number of documents to skip
-        const skip = (page - 1) * limit;
-
-        // Fetch the users with pagination
-        const users = await collection.find({})
-            .skip(skip)
-            .limit(limit)
-            .toArray();
-
-        // Get the total count of users for pagination purposes
-        const totalUsers = await collection.countDocuments({});
-
-        return NextResponse.json({
-            users,
-            totalUsers,
-            totalPages: Math.ceil(totalUsers / limit),
-            currentPage: page,
-        });
+        return NextResponse.json({ users });
     } catch (error: any) {
         return NextResponse.json(
             { message: 'Failed to fetch users', error: error.message },

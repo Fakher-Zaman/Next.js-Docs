@@ -266,8 +266,8 @@ const Users: React.FC = () => {
             ) : (
                 <>
                     <div className='flex flex-row items-center gap-5 justify-center w-full'>
-                        <h1 className="text-xl font-bold my-4 text-center">Users List</h1>
-                        <Button onPress={openAddModal} className='absolute right-16'>Add User</Button>
+                        <h1 className="text-xl font-bold my-4">Users List</h1>
+                        <Button onPress={openAddModal}>Add User</Button>
                     </div>
                     <div>
                         <Table aria-label="Users table">
