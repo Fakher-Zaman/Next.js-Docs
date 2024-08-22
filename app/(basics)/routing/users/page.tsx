@@ -7,6 +7,8 @@ import {
     Spinner
 } from "@nextui-org/react";
 import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 // Update the User interface to match the response data structure
 interface User {
@@ -39,7 +41,12 @@ const Users: React.FC = () => {
 
     const getUsers = () => {
         setIsLoading(true);
-        fetch('/api/users')
+        fetch('/api/users', {
+            method: 'GET',
+            headers: {
+                'X-Required-Header': 'customValue123'
+            },
+        })
             .then(async (res) => {
                 if (!res.ok) {
                     const errorText = await res.text();
@@ -88,24 +95,26 @@ const Users: React.FC = () => {
                 userType: newUser.userType
             };
 
-            if(newUser.userName !== '' || newUser.userEmail !== '' || newUser.userContact !== '' || newUser.userAddress !== '' || newUser.userType !== '') {
+            if (newUser.userName !== '' || newUser.userEmail !== '' || newUser.userContact !== '' || newUser.userAddress !== '' || newUser.userType !== '') {
                 const res = await fetch('/api/users', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        'X-Required-Header': 'customValue123',
                     },
                     body: JSON.stringify(newUserWithId),
                 });
-    
+
                 if (res.ok) {
                     const { message, users: updatedUsers } = await res.json();
                     setUsers(updatedUsers);
                     notify(message, "success");
                     onOpenChange(); // Close modal
+                    getUsers();
                 } else {
                     const { message } = await res.json();
                     notify(message || "Failed to add user!", "error");
-                }   
+                }
             } else {
                 notify("Fields Required!", "warning");
             }
@@ -114,13 +123,13 @@ const Users: React.FC = () => {
             notify("An error occurred. Please try again!", "error");
         } finally {
             setDataLoading(false);
-            getUsers();
             emptyFields();
         }
     };
 
     return (
         <main className="container mx-auto">
+            <ToastContainer />
             {isLoading ? (
                 <div className='flex justify-center items-center p-4 mt-10'>
                     <Spinner />
@@ -205,12 +214,12 @@ const Users: React.FC = () => {
                                         <Button color="danger" variant="light" onPress={onClose}>
                                             Close
                                         </Button>
-                                        <Button 
-                                        isLoading={dataLoading} 
-                                        color="primary" 
-                                        onPress={handleAddUser} 
-                                        className='text-white'
-                                        isDisabled={newUser.userName === '' || newUser.userEmail === '' || newUser.userContact === '' || newUser.userAddress === '' || newUser.userType === ''}
+                                        <Button
+                                            isLoading={dataLoading}
+                                            color="primary"
+                                            onPress={handleAddUser}
+                                            className='text-white'
+                                            isDisabled={newUser.userName === '' || newUser.userEmail === '' || newUser.userContact === '' || newUser.userAddress === '' || newUser.userType === ''}
                                         >
                                             Add
                                         </Button>
