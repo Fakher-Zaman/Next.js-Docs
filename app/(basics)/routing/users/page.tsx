@@ -33,11 +33,11 @@ const Users: React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [dataLoading, setDataLoading] = useState<boolean>(false);
 
-    const notify = (message: string, type: "success" | "error" = "success") => {
+    const notify = (message: string, type: "success" | "error" | "warning" = "success") => {
         toast[type](message);
     };
 
-    useEffect(() => {
+    const getUsers = () => {
         setIsLoading(true);
         fetch('/api/users')
             .then(async (res) => {
@@ -57,10 +57,23 @@ const Users: React.FC = () => {
             .finally(() => {
                 setIsLoading(false);
             });
+    }
+
+    useEffect(() => {
+        getUsers();
     }, []);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNewUser({ ...newUser, [e.target.name]: e.target.value });
+    };
+
+    const emptyFields = () => {
+        newUser.userId = '';
+        newUser.userName = '';
+        newUser.userEmail = '';
+        newUser.userContact = '';
+        newUser.userAddress = '';
+        newUser.userType = '';
     };
 
     const handleAddUser = async () => {
@@ -75,28 +88,34 @@ const Users: React.FC = () => {
                 userType: newUser.userType
             };
 
-            const res = await fetch('/api/users', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(newUserWithId),
-            });
-
-            if (res.ok) {
-                const { message, users: updatedUsers } = await res.json();
-                setUsers(updatedUsers);
-                notify(message, "success");
-                onOpenChange(); // Close modal
+            if(newUser.userName !== '' || newUser.userEmail !== '' || newUser.userContact !== '' || newUser.userAddress !== '' || newUser.userType !== '') {
+                const res = await fetch('/api/users', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(newUserWithId),
+                });
+    
+                if (res.ok) {
+                    const { message, users: updatedUsers } = await res.json();
+                    setUsers(updatedUsers);
+                    notify(message, "success");
+                    onOpenChange(); // Close modal
+                } else {
+                    const { message } = await res.json();
+                    notify(message || "Failed to add user!", "error");
+                }   
             } else {
-                const { message } = await res.json();
-                notify(message || "Failed to add user!", "error");
+                notify("Fields Required!", "warning");
             }
         } catch (error) {
             console.error("Error adding user:", error);
             notify("An error occurred. Please try again!", "error");
         } finally {
             setDataLoading(false);
+            getUsers();
+            emptyFields();
         }
     };
 
@@ -108,13 +127,14 @@ const Users: React.FC = () => {
                 </div>
             ) : (
                 <>
-                    <div className='flex flex-row items-center gap-5 justify-between'>
+                    <div className='flex flex-row items-center gap-5 justify-center w-full'>
                         <h1 className="text-xl font-bold my-4 text-center">Users List</h1>
-                        <Button onPress={onOpen}>Add User</Button>
+                        <Button onPress={onOpen} className='absolute right-16'>Add User</Button>
                     </div>
                     <div>
                         <Table aria-label="Users table">
                             <TableHeader>
+                                <TableColumn>ID</TableColumn>
                                 <TableColumn>NAME</TableColumn>
                                 <TableColumn>EMAIL</TableColumn>
                                 <TableColumn>ADDRESS</TableColumn>
@@ -125,8 +145,9 @@ const Users: React.FC = () => {
                                 <TableBody emptyContent={"No record to display!"}>{[]}</TableBody>
                             ) : (
                                 <TableBody>
-                                    {users.map((user) => (
+                                    {users.map((user, index) => (
                                         <TableRow key={user._id}>
+                                            <TableCell>{index + 1}</TableCell>
                                             <TableCell>{user.userName}</TableCell>
                                             <TableCell>{user.userEmail}</TableCell>
                                             <TableCell>{user.userAddress}</TableCell>
@@ -184,7 +205,13 @@ const Users: React.FC = () => {
                                         <Button color="danger" variant="light" onPress={onClose}>
                                             Close
                                         </Button>
-                                        <Button isLoading={dataLoading} color="primary" onPress={handleAddUser} className='text-white'>
+                                        <Button 
+                                        isLoading={dataLoading} 
+                                        color="primary" 
+                                        onPress={handleAddUser} 
+                                        className='text-white'
+                                        isDisabled={newUser.userName === '' || newUser.userEmail === '' || newUser.userContact === '' || newUser.userAddress === '' || newUser.userType === ''}
+                                        >
                                             Add
                                         </Button>
                                     </ModalFooter>
