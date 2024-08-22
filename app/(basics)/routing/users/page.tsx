@@ -8,9 +8,10 @@ import {
 } from "@nextui-org/react";
 import { toast } from 'react-toastify';
 import { BsThreeDotsVertical } from 'react-icons/bs';
-import { FaHome, FaMobileAlt, FaUser } from 'react-icons/fa';
-import { RiShieldUserFill } from 'react-icons/ri';
-import { MdEmail } from 'react-icons/md';
+import { FaMobileAlt, FaRegUser } from 'react-icons/fa';
+import { MdOutlineEmail } from 'react-icons/md';
+import { IoHomeOutline } from 'react-icons/io5';
+import { GrUserAdmin } from 'react-icons/gr';
 
 // Update the User interface to match the response data structure
 interface User {
@@ -47,6 +48,7 @@ const Users: React.FC = () => {
     const [isAddModal, setIsAddModal] = useState<boolean>(false);
     const [isViewModal, setIsViewModal] = useState<boolean>(false);
     const [isEditModal, setIsEditModal] = useState<boolean>(false);
+    const [isDeleteModal, setIsDeleteModal] = useState<boolean>(false);
 
     const notify = (message: string, type: "success" | "error" | "warning" = "success") => {
         toast[type](message);
@@ -85,7 +87,7 @@ const Users: React.FC = () => {
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNewUser({ ...newUser, [e.target.name]: e.target.value });
-        setSingleUser({...singleUser, [e.target.name]: e.target.value});
+        setSingleUser({ ...singleUser, [e.target.name]: e.target.value });
     };
 
     const emptyFields = () => {
@@ -176,6 +178,15 @@ const Users: React.FC = () => {
         setIsEditModal(false);
     }
 
+    const openDeleteModal = (user: User) => {
+        setSingleUser(user);
+        setIsDeleteModal(true);
+    }
+
+    const closeDeleteModal = () => {
+        setIsDeleteModal(false);
+    }
+
     const handleEditUser = async (userId: string) => {
         setDataLoading(true);
         try {
@@ -219,7 +230,32 @@ const Users: React.FC = () => {
         }
     }
 
-    console.log("Single User: ", singleUser);
+    const handleDeleteUser = async (userId: string) => {
+        setDataLoading(true);
+        try {
+            const res = await fetch(`/api/users/${userId}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-Required-Header': 'customValue123',
+                },
+            });
+            if (res.ok) {
+                const { message } = await res.json();
+                notify(message, "success");
+                onOpenChange(); // Close modal
+                getUsers();
+            } else {
+                const { message } = await res.json();
+                notify(message || "Failed to delete user!", "error");
+            }
+        } catch (error) {
+            console.error("Error deleting user:", error);
+            notify("An error occurred. Please try again!", "error");
+        } finally {
+            setDataLoading(false);
+            closeDeleteModal();
+        }
+    }
 
     return (
         <main className="container mx-auto">
@@ -270,7 +306,7 @@ const Users: React.FC = () => {
                                                     <DropdownMenu>
                                                         <DropdownItem onPress={() => openViewModal(user)}>View</DropdownItem>
                                                         <DropdownItem onPress={() => openEditModal(user)}>Edit</DropdownItem>
-                                                        <DropdownItem>Delete</DropdownItem>
+                                                        <DropdownItem onPress={() => openDeleteModal(user)}>Delete</DropdownItem>
                                                     </DropdownMenu>
                                                 </Dropdown>
                                             </TableCell>
@@ -326,7 +362,7 @@ const Users: React.FC = () => {
                                     </ModalBody>
                                     <ModalFooter>
                                         <Button color="danger" variant="light" onPress={closeAddModal}>
-                                            Close
+                                            Cancel
                                         </Button>
                                         <Button
                                             isLoading={dataLoading}
@@ -352,12 +388,12 @@ const Users: React.FC = () => {
                                     <ModalBody>
                                         <div className='flex flex-col gap-2'>
                                             <p className='flex flex-row justify-start items-center gap-3'>
-                                                <span><FaUser className='text-xl' /></span>
+                                                <span><FaRegUser className='text-xl' /></span>
                                                 <span>{singleUser.userName}</span>
                                             </p>
                                             <p className='flex flex-row justify-end items-center gap-3'>
                                                 <span>{singleUser.userEmail}</span>
-                                                <span><MdEmail className='text-xl' /></span>
+                                                <span><MdOutlineEmail className='text-xl' /></span>
                                             </p>
                                             <p className='flex flex-row justify-start items-center gap-3'>
                                                 <span><FaMobileAlt className='text-xl' /></span>
@@ -365,10 +401,10 @@ const Users: React.FC = () => {
                                             </p>
                                             <p className='flex flex-row justify-end items-center gap-3'>
                                                 <span>{singleUser.userAddress}</span>
-                                                <span><FaHome className='text-xl' /></span>
+                                                <span><IoHomeOutline className='text-xl' /></span>
                                             </p>
                                             <p className='flex flex-row justify-start items-center gap-3'>
-                                                <span><RiShieldUserFill className='text-xl' /></span>
+                                                <span><GrUserAdmin className='text-xl' /></span>
                                                 <span>{singleUser.userType}</span>
                                             </p>
                                         </div>
@@ -428,7 +464,7 @@ const Users: React.FC = () => {
                                     </ModalBody>
                                     <ModalFooter>
                                         <Button color="danger" variant="light" onPress={closeEditModal}>
-                                            Close
+                                            Cancel
                                         </Button>
                                         <Button
                                             isLoading={dataLoading}
@@ -438,6 +474,35 @@ const Users: React.FC = () => {
                                             isDisabled={singleUser.userName === '' || singleUser.userEmail === '' || singleUser.userContact === '' || singleUser.userAddress === '' || singleUser.userType === ''}
                                         >
                                             Edit
+                                        </Button>
+                                    </ModalFooter>
+                                </>
+                            )}
+                        </ModalContent>
+                    </Modal>
+
+                    <Modal isOpen={isDeleteModal} onOpenChange={onOpenChange} onClose={closeDeleteModal}>
+                        <ModalContent>
+                            {(closeDeleteModal) => (
+                                <>
+                                    <ModalHeader className="flex flex-col gap-1">Delete User</ModalHeader>
+                                    <ModalBody>
+                                        <div className='flex flex-col gap-4'>
+                                            <p className='text-danger-700'>Are you sure you want to delete this user?</p>
+                                            <p className='flex flex-row items-center gap-2'><span>Name:</span><span>{singleUser.userName}</span></p>
+                                        </div>
+                                    </ModalBody>
+                                    <ModalFooter>
+                                        <Button color="danger" variant="light" onPress={closeDeleteModal}>
+                                            Cancel
+                                        </Button>
+                                        <Button
+                                            isLoading={dataLoading}
+                                            color="danger"
+                                            onPress={() => handleDeleteUser(singleUser.userId)}
+                                            className='text-white'
+                                        >
+                                            Confirm
                                         </Button>
                                     </ModalFooter>
                                 </>
