@@ -44,9 +44,9 @@ const Users: React.FC = () => {
     });
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [dataLoading, setDataLoading] = useState<boolean>(false);
-    const [isViewModal, setIsViewModal] = useState<boolean>(false);
     const [isAddModal, setIsAddModal] = useState<boolean>(false);
-    const [userId, setUserId] = useState<string>('');
+    const [isViewModal, setIsViewModal] = useState<boolean>(false);
+    const [isEditModal, setIsEditModal] = useState<boolean>(false);
 
     const notify = (message: string, type: "success" | "error" | "warning" = "success") => {
         toast[type](message);
@@ -85,10 +85,19 @@ const Users: React.FC = () => {
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNewUser({ ...newUser, [e.target.name]: e.target.value });
+        setSingleUser({...singleUser, [e.target.name]: e.target.value});
     };
 
     const emptyFields = () => {
         setNewUser({
+            userId: '',
+            userName: '',
+            userEmail: '',
+            userContact: '',
+            userAddress: '',
+            userType: ''
+        });
+        setSingleUser({
             userId: '',
             userName: '',
             userEmail: '',
@@ -136,6 +145,7 @@ const Users: React.FC = () => {
             notify("An error occurred. Please try again!", "error");
         } finally {
             setDataLoading(false);
+            closeAddModal();
             emptyFields();
         }
     };
@@ -149,7 +159,6 @@ const Users: React.FC = () => {
     }
 
     const openViewModal = (user: User) => {
-        setUserId(userId);
         setSingleUser(user);
         setIsViewModal(true);
     }
@@ -157,6 +166,60 @@ const Users: React.FC = () => {
     const closeViewModal = () => {
         setIsViewModal(false);
     }
+
+    const openEditModal = (user: User) => {
+        setSingleUser(user);
+        setIsEditModal(true);
+    }
+
+    const closeEditModal = () => {
+        setIsEditModal(false);
+    }
+
+    const handleEditUser = async (userId: string) => {
+        setDataLoading(true);
+        try {
+            const editUserWithId = {
+                userId: Date.now().toString(),
+                userName: singleUser.userName,
+                userEmail: singleUser.userEmail,
+                userContact: singleUser.userContact,
+                userAddress: singleUser.userAddress,
+                userType: singleUser.userType
+            };
+            if (singleUser.userName && singleUser.userEmail && singleUser.userContact && singleUser.userAddress && singleUser.userType) {
+                const res = await fetch(`/api/users/${userId}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Required-Header': 'customValue123',
+                    },
+                    body: JSON.stringify(editUserWithId),
+                });
+                if (res.ok) {
+                    const { message, users: updatedUsers } = await res.json();
+                    setUsers(updatedUsers);
+                    notify(message, "success");
+                    onOpenChange(); // Close modal
+                    getUsers();
+                } else {
+                    const { message } = await res.json();
+                    notify(message || "Failed to edit user!", "error");
+                }
+            } else {
+                notify("All fields are required!", "warning");
+            }
+        } catch (error) {
+            console.error("Error editing user:", error);
+            notify("An error occurred. Please try again!", "error");
+        } finally {
+            setDataLoading(false);
+            emptyFields();
+            closeEditModal();
+        }
+    }
+
+    console.log("Single User: ", singleUser);
 
     return (
         <main className="container mx-auto">
@@ -206,7 +269,7 @@ const Users: React.FC = () => {
                                                     </DropdownTrigger>
                                                     <DropdownMenu>
                                                         <DropdownItem onPress={() => openViewModal(user)}>View</DropdownItem>
-                                                        <DropdownItem>Edit</DropdownItem>
+                                                        <DropdownItem onPress={() => openEditModal(user)}>Edit</DropdownItem>
                                                         <DropdownItem>Delete</DropdownItem>
                                                     </DropdownMenu>
                                                 </Dropdown>
@@ -217,6 +280,8 @@ const Users: React.FC = () => {
                             )}
                         </Table>
                     </div>
+
+                    {/* Add User Modal */}
                     <Modal isOpen={isAddModal} onOpenChange={onOpenChange} onClose={closeAddModal}>
                         <ModalContent>
                             {(closeAddModal) => (
@@ -278,6 +343,7 @@ const Users: React.FC = () => {
                         </ModalContent>
                     </Modal>
 
+                    {/* View User Modal */}
                     <Modal isOpen={isViewModal} onOpenChange={onOpenChange} onClose={closeViewModal}>
                         <ModalContent>
                             {(closeViewModal) => (
@@ -310,6 +376,68 @@ const Users: React.FC = () => {
                                     <ModalFooter>
                                         <Button color="danger" variant="light" onPress={closeViewModal}>
                                             Close
+                                        </Button>
+                                    </ModalFooter>
+                                </>
+                            )}
+                        </ModalContent>
+                    </Modal>
+
+                    {/* Edit User Modal */}
+                    <Modal isOpen={isEditModal} onOpenChange={onOpenChange} onClose={closeEditModal}>
+                        <ModalContent>
+                            {(closeEditModal) => (
+                                <>
+                                    <ModalHeader className="flex flex-col gap-1">Edit User</ModalHeader>
+                                    <ModalBody>
+                                        <Input
+                                            name="userName"
+                                            label="Name"
+                                            placeholder="Enter user name"
+                                            value={singleUser.userName}
+                                            onChange={handleInputChange}
+                                        />
+                                        <Input
+                                            name="userEmail"
+                                            label="Email"
+                                            placeholder="Enter user email"
+                                            value={singleUser.userEmail}
+                                            onChange={handleInputChange}
+                                        />
+                                        <Input
+                                            name="userContact"
+                                            label="Contact"
+                                            placeholder="Enter contact number"
+                                            value={singleUser.userContact}
+                                            onChange={handleInputChange}
+                                        />
+                                        <Input
+                                            name="userAddress"
+                                            label="Address"
+                                            placeholder="Enter address"
+                                            value={singleUser.userAddress}
+                                            onChange={handleInputChange}
+                                        />
+                                        <Input
+                                            name="userType"
+                                            label="Type"
+                                            placeholder="Enter user type"
+                                            value={singleUser.userType}
+                                            onChange={handleInputChange}
+                                        />
+                                    </ModalBody>
+                                    <ModalFooter>
+                                        <Button color="danger" variant="light" onPress={closeEditModal}>
+                                            Close
+                                        </Button>
+                                        <Button
+                                            isLoading={dataLoading}
+                                            color="primary"
+                                            onPress={() => handleEditUser(singleUser.userId)}
+                                            className='text-white'
+                                            isDisabled={singleUser.userName === '' || singleUser.userEmail === '' || singleUser.userContact === '' || singleUser.userAddress === '' || singleUser.userType === ''}
+                                        >
+                                            Edit
                                         </Button>
                                     </ModalFooter>
                                 </>
