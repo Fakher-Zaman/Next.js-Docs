@@ -8,6 +8,9 @@ import {
 } from "@nextui-org/react";
 import { toast } from 'react-toastify';
 import { BsThreeDotsVertical } from 'react-icons/bs';
+import { FaHome, FaMobileAlt, FaUser } from 'react-icons/fa';
+import { RiShieldUserFill } from 'react-icons/ri';
+import { MdEmail } from 'react-icons/md';
 
 // Update the User interface to match the response data structure
 interface User {
@@ -23,7 +26,14 @@ interface User {
 const Users: React.FC = () => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const [users, setUsers] = useState<User[]>([]);
-    const [user, setSingleUser] = useState<User[]>([]);
+    const [singleUser, setSingleUser] = useState<Omit<User, '_id'>>({
+        userId: '',
+        userName: '',
+        userEmail: '',
+        userContact: '',
+        userAddress: '',
+        userType: ''
+    });
     const [newUser, setNewUser] = useState<Omit<User, '_id'>>({
         userId: '',
         userName: '',
@@ -34,6 +44,9 @@ const Users: React.FC = () => {
     });
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [dataLoading, setDataLoading] = useState<boolean>(false);
+    const [isViewModal, setIsViewModal] = useState<boolean>(false);
+    const [isAddModal, setIsAddModal] = useState<boolean>(false);
+    const [userId, setUserId] = useState<string>('');
 
     const notify = (message: string, type: "success" | "error" | "warning" = "success") => {
         toast[type](message);
@@ -127,33 +140,22 @@ const Users: React.FC = () => {
         }
     };
 
-    const handleViewUser = (userId: string) => {
-        try {
-            fetch(`/api/users/${userId}`, {
-                method: 'GET',
-                headers: {
-                    'X-Required-Header': 'customValue123'
-                },
-            })
-                .then(async (res) => {
-                    if (!res.ok) {
-                        const errorText = await res.text();
-                        throw new Error(errorText);
-                    }
-                    return res.json();
-                })
-                .then((data) => {
-                    setSingleUser(data.user || []);
-                    console.log("Fetched: ", data.user);
-                })
-                .catch((error) => {
-                    console.error('Error fetching users:', error);
-                    notify(`Failed to fetch users: ${error.message}`, "error");
-                })
-        } catch (error) {
-            console.log("Error: ", error);
-            notify(`Something went wrong: ${error}`, "error");
-        }
+    const openAddModal = () => {
+        setIsAddModal(true);
+    }
+
+    const closeAddModal = () => {
+        setIsAddModal(false);
+    }
+
+    const openViewModal = (user: User) => {
+        setUserId(userId);
+        setSingleUser(user);
+        setIsViewModal(true);
+    }
+
+    const closeViewModal = () => {
+        setIsViewModal(false);
     }
 
     return (
@@ -166,7 +168,7 @@ const Users: React.FC = () => {
                 <>
                     <div className='flex flex-row items-center gap-5 justify-center w-full'>
                         <h1 className="text-xl font-bold my-4 text-center">Users List</h1>
-                        <Button onPress={onOpen} className='absolute right-16'>Add User</Button>
+                        <Button onPress={openAddModal} className='absolute right-16'>Add User</Button>
                     </div>
                     <div>
                         <Table aria-label="Users table">
@@ -203,7 +205,7 @@ const Users: React.FC = () => {
                                                         </Button>
                                                     </DropdownTrigger>
                                                     <DropdownMenu>
-                                                        <DropdownItem onPress={() => handleViewUser(user.userId)}>View</DropdownItem>
+                                                        <DropdownItem onPress={() => openViewModal(user)}>View</DropdownItem>
                                                         <DropdownItem>Edit</DropdownItem>
                                                         <DropdownItem>Delete</DropdownItem>
                                                     </DropdownMenu>
@@ -215,9 +217,9 @@ const Users: React.FC = () => {
                             )}
                         </Table>
                     </div>
-                    <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+                    <Modal isOpen={isAddModal} onOpenChange={onOpenChange} onClose={closeAddModal}>
                         <ModalContent>
-                            {(onClose) => (
+                            {(closeAddModal) => (
                                 <>
                                     <ModalHeader className="flex flex-col gap-1">Add User</ModalHeader>
                                     <ModalBody>
@@ -258,7 +260,7 @@ const Users: React.FC = () => {
                                         />
                                     </ModalBody>
                                     <ModalFooter>
-                                        <Button color="danger" variant="light" onPress={onClose}>
+                                        <Button color="danger" variant="light" onPress={closeAddModal}>
                                             Close
                                         </Button>
                                         <Button
@@ -269,6 +271,45 @@ const Users: React.FC = () => {
                                             isDisabled={newUser.userName === '' || newUser.userEmail === '' || newUser.userContact === '' || newUser.userAddress === '' || newUser.userType === ''}
                                         >
                                             Add
+                                        </Button>
+                                    </ModalFooter>
+                                </>
+                            )}
+                        </ModalContent>
+                    </Modal>
+
+                    <Modal isOpen={isViewModal} onOpenChange={onOpenChange} onClose={closeViewModal}>
+                        <ModalContent>
+                            {(closeViewModal) => (
+                                <>
+                                    <ModalHeader className="flex flex-col gap-1">View User</ModalHeader>
+                                    <ModalBody>
+                                        <div className='flex flex-col gap-2'>
+                                            <p className='flex flex-row justify-start items-center gap-3'>
+                                                <span><FaUser className='text-xl' /></span>
+                                                <span>{singleUser.userName}</span>
+                                            </p>
+                                            <p className='flex flex-row justify-end items-center gap-3'>
+                                                <span>{singleUser.userEmail}</span>
+                                                <span><MdEmail className='text-xl' /></span>
+                                            </p>
+                                            <p className='flex flex-row justify-start items-center gap-3'>
+                                                <span><FaMobileAlt className='text-xl' /></span>
+                                                <span>{singleUser.userContact}</span>
+                                            </p>
+                                            <p className='flex flex-row justify-end items-center gap-3'>
+                                                <span>{singleUser.userAddress}</span>
+                                                <span><FaHome className='text-xl' /></span>
+                                            </p>
+                                            <p className='flex flex-row justify-start items-center gap-3'>
+                                                <span><RiShieldUserFill className='text-xl' /></span>
+                                                <span>{singleUser.userType}</span>
+                                            </p>
+                                        </div>
+                                    </ModalBody>
+                                    <ModalFooter>
+                                        <Button color="danger" variant="light" onPress={closeViewModal}>
+                                            Close
                                         </Button>
                                     </ModalFooter>
                                 </>
