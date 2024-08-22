@@ -4,11 +4,10 @@ import React, { useEffect, useState } from 'react';
 import {
     Table, TableHeader, TableColumn, TableBody, TableRow, TableCell,
     Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Input, useDisclosure,
-    Spinner
+    Spinner, Chip, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem
 } from "@nextui-org/react";
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer } from 'react-toastify';
+import { BsThreeDotsVertical } from 'react-icons/bs';
 
 // Update the User interface to match the response data structure
 interface User {
@@ -24,6 +23,7 @@ interface User {
 const Users: React.FC = () => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const [users, setUsers] = useState<User[]>([]);
+    const [user, setSingleUser] = useState<User[]>([]);
     const [newUser, setNewUser] = useState<Omit<User, '_id'>>({
         userId: '',
         userName: '',
@@ -75,12 +75,14 @@ const Users: React.FC = () => {
     };
 
     const emptyFields = () => {
-        newUser.userId = '';
-        newUser.userName = '';
-        newUser.userEmail = '';
-        newUser.userContact = '';
-        newUser.userAddress = '';
-        newUser.userType = '';
+        setNewUser({
+            userId: '',
+            userName: '',
+            userEmail: '',
+            userContact: '',
+            userAddress: '',
+            userType: ''
+        });
     };
 
     const handleAddUser = async () => {
@@ -94,8 +96,7 @@ const Users: React.FC = () => {
                 userAddress: newUser.userAddress,
                 userType: newUser.userType
             };
-
-            if (newUser.userName !== '' || newUser.userEmail !== '' || newUser.userContact !== '' || newUser.userAddress !== '' || newUser.userType !== '') {
+            if (newUser.userName && newUser.userEmail && newUser.userContact && newUser.userAddress && newUser.userType) {
                 const res = await fetch('/api/users', {
                     method: 'POST',
                     headers: {
@@ -104,7 +105,6 @@ const Users: React.FC = () => {
                     },
                     body: JSON.stringify(newUserWithId),
                 });
-
                 if (res.ok) {
                     const { message, users: updatedUsers } = await res.json();
                     setUsers(updatedUsers);
@@ -116,7 +116,7 @@ const Users: React.FC = () => {
                     notify(message || "Failed to add user!", "error");
                 }
             } else {
-                notify("Fields Required!", "warning");
+                notify("All fields are required!", "warning");
             }
         } catch (error) {
             console.error("Error adding user:", error);
@@ -127,9 +127,37 @@ const Users: React.FC = () => {
         }
     };
 
+    const handleViewUser = (userId: string) => {
+        try {
+            fetch(`/api/users/${userId}`, {
+                method: 'GET',
+                headers: {
+                    'X-Required-Header': 'customValue123'
+                },
+            })
+                .then(async (res) => {
+                    if (!res.ok) {
+                        const errorText = await res.text();
+                        throw new Error(errorText);
+                    }
+                    return res.json();
+                })
+                .then((data) => {
+                    setSingleUser(data.user || []);
+                    console.log("Fetched: ", data.user);
+                })
+                .catch((error) => {
+                    console.error('Error fetching users:', error);
+                    notify(`Failed to fetch users: ${error.message}`, "error");
+                })
+        } catch (error) {
+            console.log("Error: ", error);
+            notify(`Something went wrong: ${error}`, "error");
+        }
+    }
+
     return (
         <main className="container mx-auto">
-            <ToastContainer />
             {isLoading ? (
                 <div className='flex justify-center items-center p-4 mt-10'>
                     <Spinner />
@@ -149,19 +177,38 @@ const Users: React.FC = () => {
                                 <TableColumn>ADDRESS</TableColumn>
                                 <TableColumn>CONTACT</TableColumn>
                                 <TableColumn>TYPE</TableColumn>
+                                <TableColumn>Actions</TableColumn>
                             </TableHeader>
                             {(!Array.isArray(users) || users.length === 0) ? (
                                 <TableBody emptyContent={"No record to display!"}>{[]}</TableBody>
                             ) : (
                                 <TableBody>
                                     {users.map((user, index) => (
-                                        <TableRow key={user._id}>
+                                        <TableRow key={user.userId}>
                                             <TableCell>{index + 1}</TableCell>
                                             <TableCell>{user.userName}</TableCell>
                                             <TableCell>{user.userEmail}</TableCell>
                                             <TableCell>{user.userAddress}</TableCell>
                                             <TableCell>{user.userContact}</TableCell>
-                                            <TableCell>{user.userType}</TableCell>
+                                            <TableCell>
+                                                <Chip className="capitalize" color="default" size="sm" variant="flat">
+                                                    {user.userType}
+                                                </Chip>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Dropdown>
+                                                    <DropdownTrigger>
+                                                        <Button isIconOnly size="sm" variant="light">
+                                                            <BsThreeDotsVertical className="text-default-400 text-xl" />
+                                                        </Button>
+                                                    </DropdownTrigger>
+                                                    <DropdownMenu>
+                                                        <DropdownItem onPress={() => handleViewUser(user.userId)}>View</DropdownItem>
+                                                        <DropdownItem>Edit</DropdownItem>
+                                                        <DropdownItem>Delete</DropdownItem>
+                                                    </DropdownMenu>
+                                                </Dropdown>
+                                            </TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>
