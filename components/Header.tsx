@@ -1,6 +1,6 @@
 "use client";
 
-import { Tab, Tabs } from '@nextui-org/react';
+import { Radio, RadioGroup, Tab, Tabs } from '@nextui-org/react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { IoMdArrowBack } from 'react-icons/io';
@@ -26,7 +26,7 @@ const Header = () => {
 
     return (
         <header className=''>
-            <nav className='container mx-auto flex justify-between items-center'>
+            <nav className='container mx-auto flex md:justify-between items-center md:flex-row flex-col'>
                 <div className='flex items-center gap-4'>
                     <span className='sm:block hidden text-2xl cursor-pointer'><IoMdArrowBack onClick={() => router.back()} /></span>
                     <Link href={"/routing"} className='text-xl font-bold'>
@@ -34,7 +34,7 @@ const Header = () => {
                     </Link>
                 </div>
                 <div className="flex flex-wrap gap-4">
-                    <Tabs key="light" variant="light" aria-label="Tabs variants" selectedKey={selectedTab ? selectedTab.key : ""}>
+                    <Tabs className='md:block hidden' key="light" variant="light" aria-label="Tabs variants" selectedKey={selectedTab ? selectedTab.key : ""}>
                         {
                             items.map((item) => (
                                 <Tab
@@ -50,6 +50,19 @@ const Header = () => {
                             ))
                         }
                     </Tabs>
+                    <RadioGroup
+                        orientation="horizontal"
+                        className="md:hidden block mt-10 radio-button"
+                        value={selectedTab ? selectedTab.key : ""}
+                    >
+                        {items.map((item) => (
+                            <Radio key={item.key} value={item.key} onSelect={() => handleTabChange(item.path)}>
+                                <div className="flex items-center space-x-2" onClick={() => handleTabChange(item.path)}>
+                                    <span>{item.title}</span>
+                                </div>
+                            </Radio>
+                        ))}
+                    </RadioGroup>
                 </div>
             </nav>
         </header>

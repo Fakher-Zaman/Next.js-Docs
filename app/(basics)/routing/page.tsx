@@ -9,7 +9,7 @@ export default function Routing() {
     return (
         <main className="flex flex-col items-center justify-cente px-4 py-8">
             <h1 className="md:text-2xl text-xl mb-8">Welcome to Next.js Routing!</h1>
-            <div className="flex flex-row items-center space-x-4">
+            <div className="flex flex-row items-center space-x-4 flex-wrap justify-center">
                 <Link onClick={() => router.push('/routing/about')} isBlock showAnchorIcon color="primary" anchorIcon={<IoIosLink className='ml-1' />} className='cursor-pointer'>
                     <div>About</div>
                 </Link>
