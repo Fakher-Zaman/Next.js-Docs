@@ -7,6 +7,11 @@ const nextConfig = {
                 destination: '/',
                 permanent: true,
             },
+            {
+                source: '/data-fetching/home',
+                destination: '/',
+                permanent: true,
+            },
         ];
     },
     images: {

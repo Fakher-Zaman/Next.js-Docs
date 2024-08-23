@@ -20,6 +20,12 @@ export default function Basics() {
       path: "/routing",
       img: "https://miro.medium.com/v2/resize:fit:1358/0*HlUaNPJjMmoWJiNf",
       date: "08/08/2024",
+    },
+    {
+      title: "Next.js Data Fetching",
+      path: "/data-fetching",
+      img: "https://nextjs.org/api/docs-og?title=Data%20Fetching:%20Fetching",
+      date: "23/08/2024",
     }
   ];
 
