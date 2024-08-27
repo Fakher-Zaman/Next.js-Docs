@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
     Table, TableHeader, TableColumn, TableBody, TableRow, TableCell,
     Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Input, useDisclosure,
@@ -54,7 +54,7 @@ const Users: React.FC = () => {
         toast[type](message);
     };
 
-    const getUsers = () => {
+    const getUsers = useCallback(() => {
         setIsLoading(true);
         fetch('/api/users', {
             method: 'GET',
@@ -79,11 +79,11 @@ const Users: React.FC = () => {
             .finally(() => {
                 setIsLoading(false);
             });
-    }
+    }, []);
 
     useEffect(() => {
         getUsers();
-    }, []);
+    }, [getUsers]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNewUser({ ...newUser, [e.target.name]: e.target.value });
