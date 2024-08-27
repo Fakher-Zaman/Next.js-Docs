@@ -8,7 +8,10 @@ import React from 'react';
 export default function CustomerPage() {
     return (
         <>
-            <h1 className="text-xl font-bold my-4 text-center">Customer Dashboard</h1>
+            <div className='my-4'>
+                <h1 className="text-xl font-bold text-center">Customer Dashboard</h1>
+                <p className='text-center'>Parallel Routes</p>
+            </div>
             <div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">

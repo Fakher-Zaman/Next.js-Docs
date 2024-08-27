@@ -265,9 +265,12 @@ const Users: React.FC = () => {
                 </div>
             ) : (
                 <>
-                    <div className='flex flex-row items-center gap-5 justify-center w-full'>
-                        <h1 className="text-xl font-bold my-4">Users List</h1>
-                        <Button onPress={openAddModal}>Add User</Button>
+                    <div className='my-4'>
+                        <div className='flex flex-row items-center gap-5 justify-center w-full'>
+                            <h1 className="text-xl font-bold">Users List</h1>
+                            <Button onPress={openAddModal}>Add User</Button>
+                        </div>
+                        <p className='text-center mt-2'>Route Handlers & Middlewares</p>
                     </div>
                     <div>
                         <Table aria-label="Users table">

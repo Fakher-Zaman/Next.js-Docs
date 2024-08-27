@@ -14,7 +14,7 @@ export default function DataFetching() {
                     <div>About</div>
                 </Link>
                 <Link onClick={() => router.push('/data-fetching/fetching')} isBlock showAnchorIcon color="primary" anchorIcon={<IoIosLink className='ml-1' />} className='cursor-pointer'>
-                    <div>Fetching</div>
+                    <div>Client Fetching</div>
                 </Link>
                 <Link onClick={() => router.push('/data-fetching/home')} isBlock showAnchorIcon color="primary" anchorIcon={<IoIosLink className='ml-1' />} className='cursor-pointer'>
                     <div>Home</div>
