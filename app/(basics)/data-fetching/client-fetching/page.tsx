@@ -43,51 +43,49 @@ const Fetching = () => {
                     <Spinner />
                 </div>
             ) : (
-                <div>
-                    <section className='grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 w-full'>
-                        {fetchData.map((item: Comment) => (
-                            <Card className="max-w-[340px]bg-white dark:bg-gray-800" key={item.id.toString()}>
-                                <CardHeader className="justify-between">
-                                    <div className="flex gap-5">
-                                        <Avatar isBordered radius="full" size="md" src={`https://nextui.org/avatars/avatar-${item.likes}.png`} />
-                                        <div className="flex flex-col gap-1 items-start justify-center">
-                                            <h4 className="text-small font-semibold leading-none text-default-600">{item.user.fullName}</h4>
-                                            <h5 className="text-small tracking-tight text-default-400">@{item.user.username}</h5>
-                                        </div>
+                <section className='grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 justify-center items-center gap-5 w-full'>
+                    {fetchData.map((item: Comment) => (
+                        <Card className="max-w-[340px]bg-white dark:bg-gray-800" key={item.id.toString()}>
+                            <CardHeader className="justify-between">
+                                <div className="flex gap-5">
+                                    <Avatar isBordered radius="full" size="md" src={`https://nextui.org/avatars/avatar-${item.likes}.png`} />
+                                    <div className="flex flex-col gap-1 items-start justify-center">
+                                        <h4 className="text-small font-semibold leading-none text-default-600">{item.user.fullName}</h4>
+                                        <h5 className="text-small tracking-tight text-default-400">@{item.user.username}</h5>
                                     </div>
-                                    <Button
-                                        className={"text-white"}
-                                        isDisabled
-                                        color="primary"
-                                        radius="full"
-                                        size="sm"
-                                        variant="solid"
-                                    >
-                                        Follow
-                                    </Button>
-                                </CardHeader>
-                                <CardBody className="px-3 py-0 text-small text-default-400 min-h-[60px]">
-                                    <p>
-                                        {item.body}
-                                    </p>
-                                    <span className="pt-2">
-                                        #FrontendWith{item.user.username}
-                                        <span className="py-2" aria-label="computer" role="img">
-                                            💻
-                                        </span>
+                                </div>
+                                <Button
+                                    className={"text-white"}
+                                    isDisabled
+                                    color="primary"
+                                    radius="full"
+                                    size="sm"
+                                    variant="solid"
+                                >
+                                    Follow
+                                </Button>
+                            </CardHeader>
+                            <CardBody className="px-3 py-0 text-small text-default-400 min-h-[60px]">
+                                <p>
+                                    {item.body}
+                                </p>
+                                <span className="pt-2">
+                                    #FrontendWith{item.user.username}
+                                    <span className="py-2" aria-label="computer" role="img">
+                                        💻
                                     </span>
-                                </CardBody>
-                                <Divider />
-                                <CardFooter className="gap-3">
-                                    <div className="flex gap-1">
-                                        <p className="font-semibold text-default-400 text-small">{item.likes}</p>
-                                        <p className=" text-default-400 text-small">Followers</p>
-                                    </div>
-                                </CardFooter>
-                            </Card>
-                        ))}
-                    </section>
-                </div>
+                                </span>
+                            </CardBody>
+                            <Divider />
+                            <CardFooter className="gap-3">
+                                <div className="flex gap-1">
+                                    <p className="font-semibold text-default-400 text-small">{item.likes}</p>
+                                    <p className=" text-default-400 text-small">Followers</p>
+                                </div>
+                            </CardFooter>
+                        </Card>
+                    ))}
+                </section>
             )}
         </>
     )
