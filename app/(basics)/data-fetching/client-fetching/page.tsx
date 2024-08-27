@@ -44,9 +44,9 @@ const Fetching = () => {
                 </div>
             ) : (
                 <div>
-                    <section className='grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 container mx-auto'>
+                    <section className='grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 w-full'>
                         {fetchData.map((item: Comment) => (
-                            <Card className="max-w-[340px]" key={item.id.toString()}>
+                            <Card className="max-w-[340px]bg-white dark:bg-gray-800" key={item.id.toString()}>
                                 <CardHeader className="justify-between">
                                     <div className="flex gap-5">
                                         <Avatar isBordered radius="full" size="md" src={`https://nextui.org/avatars/avatar-${item.likes}.png`} />

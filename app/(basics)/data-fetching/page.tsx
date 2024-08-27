@@ -13,8 +13,11 @@ export default function DataFetching() {
                 <Link onClick={() => router.push('/data-fetching/about')} isBlock showAnchorIcon color="primary" anchorIcon={<IoIosLink className='ml-1' />} className='cursor-pointer'>
                     <div>About</div>
                 </Link>
-                <Link onClick={() => router.push('/data-fetching/fetching')} isBlock showAnchorIcon color="primary" anchorIcon={<IoIosLink className='ml-1' />} className='cursor-pointer'>
+                <Link onClick={() => router.push('/data-fetching/client-fetching')} isBlock showAnchorIcon color="primary" anchorIcon={<IoIosLink className='ml-1' />} className='cursor-pointer'>
                     <div>Client Fetching</div>
+                </Link>
+                <Link onClick={() => router.push('/data-fetching/server-fetching')} isBlock showAnchorIcon color="primary" anchorIcon={<IoIosLink className='ml-1' />} className='cursor-pointer'>
+                    <div>Server Fetching</div>
                 </Link>
                 <Link onClick={() => router.push('/data-fetching/home')} isBlock showAnchorIcon color="primary" anchorIcon={<IoIosLink className='ml-1' />} className='cursor-pointer'>
                     <div>Home</div>

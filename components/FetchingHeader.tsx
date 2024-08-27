@@ -8,7 +8,8 @@ import { IoMdArrowBack } from 'react-icons/io';
 
 const items = [
     { key: 'about', title: 'About', path: 'about' },
-    { key: 'fetching', title: 'Client Fetching', path: 'fetching' },
+    { key: 'client-fetching', title: 'Client Fetching', path: 'client-fetching' },
+    { key: 'server-fetching', title: 'Server Fetching', path: 'server-fetching' },
     { key: 'home', title: 'Home', path: 'home' },
 ];
 
