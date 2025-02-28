@@ -1,6 +1,5 @@
-// pages/api/users.ts
 import { connectToDatabase } from "@/db/mongodb";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 export async function GET() {
     try {
@@ -18,7 +17,7 @@ export async function GET() {
     }
 }
 
-export async function POST(req: NextRequest) {
+export async function POST(req: Request) {
     try {
         const { userId, userName, userEmail, userContact, userAddress, userType } = await req.json();
 
@@ -38,4 +37,3 @@ export async function POST(req: NextRequest) {
         );
     }
 }
-
